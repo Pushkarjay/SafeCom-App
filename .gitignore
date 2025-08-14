@@ -1,0 +1,149 @@
+# Operating System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Node.js Backend
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/.env.production
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/logs/
+backend/coverage/
+backend/dist/
+backend/build/
+backend/firebase-service-account.json
+backend/firebase-service-account-*.json
+
+# Android specific
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+android/app/release/
+android/app/debug/
+android/gradle.properties
+android/keystore.jks
+android/keystore.properties
+android/app/google-services.json
+
+# Android Gradle
+android/.gradle/
+android/gradle/
+!android/gradle/wrapper/gradle-wrapper.jar
+android/gradlew
+android/gradlew.bat
+
+# Android generated files
+android/gen/
+android/out/
+android/bin/
+android/proguard/
+android/lint-results.xml
+
+# Kivy/Python (if used)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+safecom.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Documentation build
+docs/_build/
+site/
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Package files
+*.tgz
+*.tar.gz
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Deployment
+deployment/
+*.pem
+*.key

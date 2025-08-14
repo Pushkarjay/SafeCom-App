@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.SafeCom.CardView.Task"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Priority Indicator -->
+        <View
+            android:id="@+id/viewPriorityIndicator"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            android:background="@color/priority_high"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Task Title -->
+        <TextView
+            android:id="@+id/tvTaskTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Equipment Inspection for Building A"
+            android:textAppearance="@style/TextAppearance.SafeCom.Body1"
+            android:textColor="@color/md_theme_light_onSurface"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnTaskMenu"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Equipment Inspection for Building A" />
+
+        <!-- Task Description -->
+        <TextView
+            android:id="@+id/tvTaskDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Perform routine inspection of all equipment in Building A including HVAC systems, electrical panels, and safety equipment."
+            android:textAppearance="@style/TextAppearance.SafeCom.Body2"
+            android:textColor="@color/md_theme_light_onSurfaceVariant"
+            app:layout_constraintEnd_toStartOf="@+id/btnTaskMenu"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/tvTaskTitle"
+            tools:text="Perform routine inspection of all equipment in Building A including HVAC systems..." />
+
+        <!-- Task Menu Button -->
+        <ImageButton
+            android:id="@+id/btnTaskMenu"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Task Menu"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/md_theme_light_onSurfaceVariant" />
+
+        <!-- Chips Container -->
+        <LinearLayout
+            android:id="@+id/layoutChips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/btnTaskMenu"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/tvTaskDescription">
+
+            <!-- Status Chip -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStatus"
+                style="@style/Widget.SafeCom.Chip.Status.InProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/status_in_progress"
+                android:textSize="10sp"
+                app:chipMinHeight="24dp" />
+
+            <!-- Priority Chip -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPriority"
+                style="@style/Widget.SafeCom.Chip.Priority.High"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/priority_high"
+                android:textSize="10sp"
+                app:chipMinHeight="24dp" />
+
+        </LinearLayout>
+
+        <!-- Task Info Row -->
+        <LinearLayout
+            android:id="@+id/layoutTaskInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/layoutChips">
+
+            <!-- Assignee Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/md_theme_light_onSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvAssignee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="John Doe"
+                    android:textAppearance="@style/TextAppearance.SafeCom.Caption"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    tools:text="John Doe" />
+
+            </LinearLayout>
+
+            <!-- Due Date Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/md_theme_light_onSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvDueDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aug 15, 2025"
+                    android:textAppearance="@style/TextAppearance.SafeCom.Caption"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    tools:text="Aug 15, 2025" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Progress Bar (for in-progress tasks) -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:max="100"
+            android:progress="65"
+            android:visibility="gone"
+            app:indicatorColor="@color/md_theme_light_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTaskInfo"
+            app:trackColor="@color/md_theme_light_surfaceVariant"
+            tools:progress="65"
+            tools:visibility="visible" />
+
+        <!-- Action Buttons (for pending tasks) -->
+        <LinearLayout
+            android:id="@+id/layoutActionButtons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/viewPriorityIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAcceptTask"
+                style="@style/Widget.SafeCom.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="@string/accept_task"
+                android:textSize="12sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeclineTask"
+                style="@style/Widget.SafeCom.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/decline_task"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Attachment Indicator -->
+        <ImageView
+            android:id="@+id/ivAttachmentIndicator"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_attachment"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutActionButtons"
+            app:tint="@color/md_theme_light_onSurfaceVariant"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.safecom.taskmanagement.ui.dashboard.DashboardFragment"
+        android:label="@string/nav_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        
+        <action
+            android:id="@+id/action_dashboard_to_tasks"
+            app:destination="@id/tasksFragment" />
+        
+        <action
+            android:id="@+id/action_dashboard_to_task_detail"
+            app:destination="@id/taskDetailFragment" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.safecom.taskmanagement.ui.tasks.TasksFragment"
+        android:label="@string/nav_tasks"
+        tools:layout="@layout/fragment_tasks">
+        
+        <action
+            android:id="@+id/action_tasks_to_task_detail"
+            app:destination="@id/taskDetailFragment" />
+        
+        <action
+            android:id="@+id/action_tasks_to_create_task"
+            app:destination="@id/createTaskFragment" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.safecom.taskmanagement.ui.messages.MessagesFragment"
+        android:label="@string/nav_messages"
+        tools:layout="@layout/fragment_messages">
+        
+        <action
+            android:id="@+id/action_messages_to_chat"
+            app:destination="@id/chatFragment" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.safecom.taskmanagement.ui.profile.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile">
+        
+        <action
+            android:id="@+id/action_profile_to_settings"
+            app:destination="@id/settingsFragment" />
+        
+        <action
+            android:id="@+id/action_profile_to_edit_profile"
+            app:destination="@id/editProfileFragment" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="com.safecom.taskmanagement.ui.tasks.TaskDetailFragment"
+        android:label="Task Detail"
+        tools:layout="@layout/fragment_task_detail">
+        
+        <argument
+            android:name="taskId"
+            app:argType="string" />
+            
+        <action
+            android:id="@+id/action_task_detail_to_edit_task"
+            app:destination="@id/editTaskFragment" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="com.safecom.taskmanagement.ui.tasks.CreateTaskFragment"
+        android:label="@string/create_task"
+        tools:layout="@layout/fragment_create_task" />
+
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="com.safecom.taskmanagement.ui.tasks.EditTaskFragment"
+        android:label="@string/edit_task"
+        tools:layout="@layout/fragment_edit_task">
+        
+        <argument
+            android:name="taskId"
+            app:argType="string" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.safecom.taskmanagement.ui.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat">
+        
+        <argument
+            android:name="conversationId"
+            app:argType="string" />
+            
+        <argument
+            android:name="contactName"
+            app:argType="string" />
+            
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.safecom.taskmanagement.ui.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.safecom.taskmanagement.ui.profile.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.safecom.taskmanagement.ui.notifications.NotificationsFragment"
+        android:label="@string/notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+</navigation>
