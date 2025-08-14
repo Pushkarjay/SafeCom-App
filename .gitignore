@@ -99,6 +99,16 @@ status.ps1
 PROJECT_STATUS_UPDATE.md
 PROJECT_DOCUMENTATION.md
 APK_DISTRIBUTION_GUIDE.md
+BUILD_STATUS.md
+DISTRIBUTION_READY.md
+CLEANUP_COMPLETE.md
+
+# Local build tools and scripts
+build-apk.bat
+build-apk.ps1
+firebase-service-account-template.json
+
+# Android specific
 android/local.properties
 android/captures/
 android/.externalNativeBuild/
