@@ -48,6 +48,57 @@ backend/firebase-service-account-*.json
 # Android specific
 android/build/
 android/app/build/
+
+# Gradle cache and build artifacts
+.gradle/
+gradle/
+build/
+*.tmp
+*.temp
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python files (not needed in this project)
+*.py
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Buildozer files
+buildozer.spec
+.buildozer/
+
+# Testing and temporary files
+*test*
+*temp*
+*tmp*
+check-build.ps1
+status.ps1
+PROJECT_STATUS_UPDATE.md
+PROJECT_DOCUMENTATION.md
+APK_DISTRIBUTION_GUIDE.md
 android/local.properties
 android/captures/
 android/.externalNativeBuild/
