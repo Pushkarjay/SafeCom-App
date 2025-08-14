@@ -147,3 +147,9 @@ firebase-debug.log
 deployment/
 *.pem
 *.key
+
+# Documentation source files (keep .md versions only)
+*.docx
+*.pdf
+Software Requirements Specification.docx
+Software Requirements Specification.pdf
