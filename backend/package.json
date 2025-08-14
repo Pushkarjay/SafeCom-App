@@ -1,7 +1,7 @@
 {
   "name": "safecom-backend",
   "version": "1.0.0",
-  "description": "SafeCom Task Management Backend API",
+  "description": "SafeCom Task Management Backend API - Developed by Pushkarjay Ajay for SafeCom",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -15,9 +15,16 @@
     "express",
     "nodejs",
     "api",
-    "firebase"
+    "firebase",
+    "safecom",
+    "pushkarjay-ajay"
   ],
-  "author": "SafeCom Development Team",
+  "author": "Pushkarjay Ajay <pushkarjay.ajay1@gmail.com>",
+  "organization": "SafeCom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pushkarjay/SafeCom-App.git"
+  },
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

@@ -13,11 +13,32 @@ import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
+/**
+ * SafeCom Task Management Application
+ * 
+ * A comprehensive task management application with real-time messaging,
+ * push notifications, and collaborative features.
+ * 
+ * @author Pushkarjay Ajay
+ * @email pushkarjay.ajay1@gmail.com
+ * @organization SafeCom
+ * @version 1.0.0
+ * @since 2025
+ */
 @HiltAndroidApp
 class SafeComApplication : Application(), Configuration.Provider {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    companion object {
+        const val APP_NAME = "SafeCom Task Management"
+        const val DEVELOPER = "Pushkarjay Ajay"
+        const val ORGANIZATION = "SafeCom"
+        const val DEVELOPER_EMAIL = "pushkarjay.ajay1@gmail.com"
+        const val VERSION = "1.0.0"
+        const val REPOSITORY_URL = "https://github.com/Pushkarjay/SafeCom-App"
+    }
 
     override fun onCreate() {
         super.onCreate()

@@ -18,6 +18,13 @@ android {
         versionCode 1
         versionName "1.0"
 
+        // App metadata
+        manifestPlaceholders = [
+            appDeveloper: "Pushkarjay Ajay",
+            appOrganization: "SafeCom",
+            developerEmail: "pushkarjay.ajay1@gmail.com"
+        ]
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true

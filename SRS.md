@@ -4,7 +4,9 @@
 **Version:** 1.0  
 **Date:** August 15, 2025  
 **Document Status:** Final  
-**Prepared by:** SafeCom Development Team  
+**Prepared by:** Pushkarjay Ajay  
+**Organization:** SafeCom  
+**Contact:** pushkarjay.ajay1@gmail.com  
 
 ---
 
@@ -23,7 +25,7 @@
 ## 1. Introduction
 
 ### 1.1 Purpose
-This Software Requirements Specification (SRS) document describes the functional and non-functional requirements for the SafeCom Task Management Application. The application is designed to facilitate efficient task management, real-time communication, and collaborative work environment for teams and organizations.
+This Software Requirements Specification (SRS) document describes the functional and non-functional requirements for the SafeCom Task Management Application. The application is designed and developed by Pushkarjay Ajay for SafeCom to facilitate efficient task management, real-time communication, and collaborative work environment for teams and organizations.
 
 ### 1.2 Document Conventions
 - **High Priority Requirements:** Critical features that must be implemented
@@ -515,9 +517,11 @@ The SafeCom Task Management Application follows a client-server architecture wit
 - **Last Modified:** August 15, 2025
 - **Version:** 1.0
 - **Status:** Final
+- **Author:** Pushkarjay Ajay
+- **Organization:** SafeCom
+- **Contact:** pushkarjay.ajay1@gmail.com
 - **Next Review Date:** September 15, 2025
 
 **Approval:**
-- **Project Manager:** [Name and Date]
-- **Technical Lead:** [Name and Date]
-- **Client Representative:** [Name and Date]
+- **Developer & Project Lead:** Pushkarjay Ajay - August 15, 2025
+- **Organization:** SafeCom - August 15, 2025

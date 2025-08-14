@@ -2,6 +2,10 @@
 
 A comprehensive task management application built with Android (Kotlin) frontend and Node.js backend, featuring real-time messaging, push notifications, and collaborative task management.
 
+**Developed by:** [Pushkarjay Ajay](mailto:pushkarjay.ajay1@gmail.com)  
+**Organization:** SafeCom  
+**Repository:** https://github.com/Pushkarjay/SafeCom-App  
+
 ## 📱 Features
 
 ### Task Management
@@ -127,7 +131,7 @@ SafeCom-App/
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/SafeCom-App.git
+git clone https://github.com/Pushkarjay/SafeCom-App.git
 cd SafeCom-App
 ```
 
@@ -343,16 +347,52 @@ buildozer android debug
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 👥 About
+
+### Developer
+**Pushkarjay Ajay**  
+- 📧 Email: [pushkarjay.ajay1@gmail.com](mailto:pushkarjay.ajay1@gmail.com)  
+- 🏢 Organization: SafeCom  
+- 🔗 GitHub: [@Pushkarjay](https://github.com/Pushkarjay)  
+
+### Project Details
+- **Project Type:** Full-Stack Mobile Application  
+- **Technology Stack:** Android (Kotlin) + Node.js Backend  
+- **Development Period:** 2025  
+- **Status:** Production Ready  
+
+### Skills Demonstrated
+- 📱 **Android Development**: Kotlin, MVVM, Material Design 3, Jetpack Compose
+- 🌐 **Backend Development**: Node.js, Express.js, MongoDB, Socket.IO
+- 🔐 **Security**: JWT Authentication, Firebase Integration, API Security
+- 📊 **Database**: MongoDB, Room (SQLite), Data Modeling
+- 🔄 **Real-time Systems**: Socket.IO, Push Notifications, Live Chat
+- 🛠️ **DevOps**: Git, API Design, Documentation, Testing
+
 ## 👥 Team
 
-- **Frontend Developer**: Android/Kotlin development
-- **Backend Developer**: Node.js/Express API development
-- **UI/UX Designer**: Material Design implementation
-- **DevOps Engineer**: Deployment and infrastructure
+## 👥 Development Team
 
-## 📞 Support
+**Lead Developer & Architect:** Pushkarjay Ajay
+- Full-stack development (Android + Backend)
+- System architecture and design
+- Database modeling and API development
+- Real-time messaging implementation
+- Security and authentication systems
 
-For support, email support@safecom.com or join our Slack channel.
+**Organization:** SafeCom
+
+## 📞 Support & Contact
+
+**Developer Contact:**
+- 📧 Email: [pushkarjay.ajay1@gmail.com](mailto:pushkarjay.ajay1@gmail.com)
+- 🔗 GitHub: [@Pushkarjay](https://github.com/Pushkarjay)
+- 🏢 Organization: SafeCom
+
+**Project Repository:**
+- 📂 GitHub: [SafeCom-App](https://github.com/Pushkarjay/SafeCom-App)
+- 📋 Issues: [Report Issues](https://github.com/Pushkarjay/SafeCom-App/issues)
+- 📖 Wiki: [Documentation](https://github.com/Pushkarjay/SafeCom-App/wiki)
 
 ## 🚧 Roadmap
 

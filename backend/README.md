@@ -2,6 +2,10 @@
 
 Complete Node.js backend for SafeCom Task Management Android application.
 
+**Developed by:** Pushkarjay Ajay  
+**Organization:** SafeCom  
+**Contact:** pushkarjay.ajay1@gmail.com  
+
 ## Features
 
 - **Authentication & Authorization**
@@ -268,6 +272,10 @@ docker run -p 3000:3000 safecom-backend
 
 ## Contributing
 
+**Developer:** Pushkarjay Ajay  
+**Email:** pushkarjay.ajay1@gmail.com  
+**Organization:** SafeCom  
+
 1. Fork the repository
 2. Create a feature branch
 3. Make changes and add tests
@@ -277,3 +285,5 @@ docker run -p 3000:3000 safecom-backend
 ## License
 
 MIT License - see LICENSE file for details
+
+**Copyright (c) 2025 Pushkarjay Ajay - SafeCom**

@@ -1,6 +1,10 @@
 <resources>
-    <!-- App Name -->
+    <!-- App Information -->
     <string name="app_name">SafeCom</string>
+    <string name="app_developer">Developed by Pushkarjay Ajay</string>
+    <string name="app_organization">SafeCom</string>
+    <string name="app_version">1.0.0</string>
+    <string name="developer_email">pushkarjay.ajay1@gmail.com</string>
     
     <!-- Authentication -->
     <string name="login">Login</string>
