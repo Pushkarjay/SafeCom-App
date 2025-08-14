@@ -102,7 +102,21 @@ SafeCom-App/
 └── README.md               # This file
 ```
 
-## 🚀 Quick Start
+## � Documentation
+
+### Project Documentation
+- **[Software Requirements Specification (SRS)](SRS.md)** - Complete system requirements and specifications
+- **[Backend API Documentation](backend/README.md)** - Backend setup and API reference
+- **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Firebase configuration instructions
+- **[Project Documentation](PROJECT_DOCUMENTATION.md)** - Additional project information
+
+### Development Guides
+- [Android Development Setup](#3-android-setup)
+- [Backend Development Setup](#2-backend-setup)
+- [Firebase Configuration](#4-firebase-configuration)
+- [Contributing Guidelines](#🤝-contributing)
+
+## �🚀 Quick Start
 
 ### Prerequisites
 - Node.js 16+ 
