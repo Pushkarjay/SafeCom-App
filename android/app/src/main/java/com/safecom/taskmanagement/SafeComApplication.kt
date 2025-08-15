@@ -50,14 +50,27 @@ class SafeComApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         
-        // Initialize Firebase
-        initializeFirebase()
+        try {
+            // Initialize Firebase with error handling
+            initializeFirebase()
+        } catch (e: Exception) {
+            // Log error but don't crash the app
+            e.printStackTrace()
+        }
         
-        // Create notification channels
-        createNotificationChannels()
+        try {
+            // Create notification channels
+            createNotificationChannels()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         
-        // Initialize WorkManager
-        initializeWorkManager()
+        try {
+            // Initialize WorkManager
+            initializeWorkManager()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun getWorkManagerConfiguration(): Configuration {
@@ -68,22 +81,32 @@ class SafeComApplication : Application(), Configuration.Provider {
 
     private fun initializeFirebase() {
         try {
-            FirebaseApp.initializeApp(this)
+            // Check if Firebase is already initialized
+            if (FirebaseApp.getApps(this).isEmpty()) {
+                FirebaseApp.initializeApp(this)
+            }
             
-            // Get FCM token
-            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    return@addOnCompleteListener
+            // Get FCM token with error handling
+            try {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        // Failed to get token, but don't crash the app
+                        return@addOnCompleteListener
+                    }
+                    
+                    // Get new FCM registration token
+                    val token = task.result
+                    
+                    // TODO: Send token to server
+                    // You can send this token to your server for push notifications
                 }
-                
-                // Get new FCM registration token
-                val token = task.result
-                
-                // TODO: Send token to server
-                // You can send this token to your server for push notifications
+            } catch (e: Exception) {
+                // FCM token retrieval failed, continue without it
+                e.printStackTrace()
             }
         } catch (e: Exception) {
-            // Handle Firebase initialization error
+            // Firebase initialization failed, continue without it
+            e.printStackTrace()
         }
     }
 
