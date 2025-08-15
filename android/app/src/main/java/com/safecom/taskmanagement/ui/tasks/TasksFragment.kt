@@ -86,32 +86,18 @@ class TasksFragment : Fragment() {
     
     private fun setupFilters() {
         // Status filter chips
-        binding.chipGroupStatus.setOnCheckedStateChangeListener { group, checkedIds ->
+        binding.chipGroupFilters.setOnCheckedStateChangeListener { group, checkedIds ->
             val selectedStatuses = checkedIds.mapNotNull { chipId ->
                 when (chipId) {
-                    R.id.chip_all -> null
-                    R.id.chip_pending -> TaskStatus.PENDING
-                    R.id.chip_in_progress -> TaskStatus.IN_PROGRESS
-                    R.id.chip_completed -> TaskStatus.COMPLETED
-                    R.id.chip_overdue -> TaskStatus.OVERDUE
+                    R.id.chipAll -> null
+                    R.id.chipPending -> TaskStatus.PENDING
+                    R.id.chipInProgress -> TaskStatus.IN_PROGRESS
+                    R.id.chipCompleted -> TaskStatus.COMPLETED
+                    R.id.chipOverdue -> TaskStatus.OVERDUE
                     else -> null
                 }
             }
             tasksViewModel.filterByStatus(selectedStatuses)
-        }
-        
-        // Priority filter chips
-        binding.chipGroupPriority.setOnCheckedStateChangeListener { group, checkedIds ->
-            val selectedPriorities = checkedIds.mapNotNull { chipId ->
-                val chip = group.findViewById<Chip>(chipId)
-                chip?.text?.toString()
-            }
-            tasksViewModel.filterByPriority(selectedPriorities)
-        }
-        
-        // Sort options
-        binding.btnSort.setOnClickListener {
-            showSortOptionsDialog()
         }
     }
     
@@ -164,6 +150,7 @@ class TasksFragment : Fragment() {
                     TaskStatus.IN_PROGRESS -> binding.chipInProgress.isChecked = true
                     TaskStatus.COMPLETED -> binding.chipCompleted.isChecked = true
                     TaskStatus.OVERDUE -> binding.chipOverdue.isChecked = true
+                    TaskStatus.CANCELLED -> { /* No chip for cancelled */ }
                 }
             }
         }

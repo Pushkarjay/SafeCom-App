@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 @Parcelize
 data class UploadImageDto(
-    val imageUri: String,
+    val imageBase64: String,
     val fileName: String,
     val contentType: String = "image/*"
 ) : Parcelable

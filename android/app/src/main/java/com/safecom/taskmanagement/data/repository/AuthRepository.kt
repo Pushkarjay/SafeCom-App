@@ -59,7 +59,7 @@ class AuthRepository @Inject constructor(
     ): Result<User> {
         return try {
             val registerResponse = authApiService.register(
-                RegisterRequestDto(name, email, password, password, role)
+                RegisterRequestDto(name, email, password, role)
             )
             
             // Save authentication token
@@ -112,7 +112,7 @@ class AuthRepository @Inject constructor(
     suspend fun changePassword(currentPassword: String, newPassword: String): Result<Unit> {
         return try {
             authApiService.changePassword(
-                ChangePasswordRequestDto(currentPassword, newPassword, newPassword)
+                ChangePasswordRequestDto(currentPassword, newPassword)
             )
             Result.success(Unit)
         } catch (e: Exception) {
@@ -132,7 +132,7 @@ class AuthRepository @Inject constructor(
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit> {
         return try {
             authApiService.resetPassword(
-                ResetPasswordRequestDto(token, newPassword, newPassword)
+                ResetPasswordRequestDto(token, newPassword)
             )
             Result.success(Unit)
         } catch (e: Exception) {

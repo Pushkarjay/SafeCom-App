@@ -3,12 +3,7 @@ package com.safecom.taskmanagement.data.remote.dto
 import com.safecom.taskmanagement.domain.model.*
 import java.util.Date
 
-// Auth DTOs
-data class LoginRequestDto(
-    val email: String,
-    val password: String
-)
-
+// Response DTOs
 data class LoginResponseDto(
     val token: String,
     val refreshToken: String,
@@ -16,13 +11,6 @@ data class LoginResponseDto(
 ) {
     fun toDomainModel(): User = user.toDomainModel()
 }
-
-data class RegisterRequestDto(
-    val name: String,
-    val email: String,
-    val password: String,
-    val role: String = "Employee"
-)
 
 data class RegisterResponseDto(
     val token: String,
@@ -32,27 +20,14 @@ data class RegisterResponseDto(
     fun toDomainModel(): User = user.toDomainModel()
 }
 
-data class RefreshTokenRequestDto(
+data class RefreshTokenResponseDto(
+    val token: String,
     val refreshToken: String
 )
 
 data class TokenResponseDto(
     val token: String,
     val refreshToken: String
-)
-
-data class ChangePasswordRequestDto(
-    val currentPassword: String,
-    val newPassword: String
-)
-
-data class ForgotPasswordRequestDto(
-    val email: String
-)
-
-data class ResetPasswordRequestDto(
-    val token: String,
-    val newPassword: String
 )
 
 // User DTOs
@@ -120,11 +95,6 @@ data class UpdateProfileDto(
     val settings: UserSettingsDto
 )
 
-data class UploadImageDto(
-    val imageBase64: String,
-    val fileName: String
-)
-
 data class UserTaskStatisticsDto(
     val completedTasks: Int,
     val pendingTasks: Int,
@@ -148,7 +118,7 @@ data class UserTaskStatisticsDto(
 }
 
 // Extension functions for domain to DTO conversion
-fun User.toDto(): UpdateProfileDto {
+fun User.toUpdateProfileDto(): UpdateProfileDto {
     return UpdateProfileDto(
         name = name,
         email = email,

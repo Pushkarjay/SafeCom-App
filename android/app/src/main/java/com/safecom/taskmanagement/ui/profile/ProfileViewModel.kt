@@ -38,7 +38,7 @@ class ProfileViewModel @Inject constructor(
                     email = user?.email ?: "",
                     role = user?.role ?: "",
                     profileImageUrl = user?.profileImageUrl,
-                    memberSince = user?.createdAt?.let { formatDate(it) } ?: "",
+                    memberSince = user?.createdAt?.let { formatDate(it.time) } ?: "",
                     completedTasks = taskStats.completedTasks,
                     pendingTasks = taskStats.pendingTasks,
                     isDarkModeEnabled = userRepository.isDarkModeEnabled(),

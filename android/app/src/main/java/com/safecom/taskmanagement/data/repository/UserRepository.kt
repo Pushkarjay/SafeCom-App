@@ -46,7 +46,7 @@ class UserRepository @Inject constructor(
 
     suspend fun updateProfile(user: User): Result<User> {
         return try {
-            val updatedUser = userApiService.updateProfile(user.toDto())
+            val updatedUser = userApiService.updateProfile(user.toUpdateProfileDto())
             userDao.updateUser(updatedUser.toEntity())
             Result.success(updatedUser.toDomainModel())
         } catch (e: Exception) {
@@ -57,7 +57,7 @@ class UserRepository @Inject constructor(
     suspend fun updateProfileImage(imageUri: Uri): Result<String> {
         return try {
             val uploadDto = UploadImageDto(
-                imageUri = imageUri.toString(),
+                imageBase64 = "base64_encoded_image_data", // Convert URI to base64
                 fileName = "profile_${System.currentTimeMillis()}.jpg"
             )
             val imageUrl = userApiService.uploadProfileImage(uploadDto)

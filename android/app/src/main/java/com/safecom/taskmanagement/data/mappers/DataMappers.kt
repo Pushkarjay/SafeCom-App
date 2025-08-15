@@ -9,7 +9,7 @@ import java.util.*
 fun UserDto.toDomainModel(): User {
     return User(
         id = id,
-        fullName = fullName,
+        name = name,
         email = email,
         role = role,
         profileImageUrl = profileImageUrl,
@@ -21,31 +21,57 @@ fun UserDto.toDomainModel(): User {
 fun User.toEntity(): UserEntity {
     return UserEntity(
         id = id,
-        fullName = fullName,
+        name = name,
         email = email,
         role = role,
         profileImageUrl = profileImageUrl,
+        department = department,
+        phoneNumber = phoneNumber,
         createdAt = createdAt.time,
-        updatedAt = updatedAt.time
+        updatedAt = updatedAt.time,
+        lastLoginAt = lastLoginAt?.time,
+        isActive = isActive,
+        isDarkModeEnabled = settings.isDarkModeEnabled,
+        isNotificationEnabled = settings.isNotificationEnabled,
+        isPushNotificationEnabled = settings.isPushNotificationEnabled,
+        isEmailNotificationEnabled = settings.isEmailNotificationEnabled,
+        language = settings.language,
+        timezone = settings.timezone,
+        workingHoursStart = settings.workingHoursStart,
+        workingHoursEnd = settings.workingHoursEnd
     )
 }
 
 fun UserEntity.toDomainModel(): User {
     return User(
         id = id,
-        fullName = fullName,
+        name = name,
         email = email,
         role = role,
         profileImageUrl = profileImageUrl,
+        department = department,
+        phoneNumber = phoneNumber,
         createdAt = Date(createdAt),
-        updatedAt = Date(updatedAt)
+        updatedAt = Date(updatedAt),
+        lastLoginAt = lastLoginAt?.let { Date(it) },
+        isActive = isActive,
+        settings = UserSettings(
+            isDarkModeEnabled = isDarkModeEnabled,
+            isNotificationEnabled = isNotificationEnabled,
+            isPushNotificationEnabled = isPushNotificationEnabled,
+            isEmailNotificationEnabled = isEmailNotificationEnabled,
+            language = language,
+            timezone = timezone,
+            workingHoursStart = workingHoursStart,
+            workingHoursEnd = workingHoursEnd
+        )
     )
 }
 
 fun User.toDto(): UserDto {
     return UserDto(
         id = id,
-        fullName = fullName,
+        name = name,
         email = email,
         role = role,
         profileImageUrl = profileImageUrl,
@@ -60,16 +86,16 @@ fun TaskDto.toDomainModel(): Task {
         id = id,
         title = title,
         description = description,
-        priority = TaskPriority.valueOf(priority),
+        priority = priority,
         status = TaskStatus.valueOf(status),
         dueDate = dueDate?.let { Date(it) },
-        assigneeId = assigneeId,
-        assigneeName = assigneeName,
+        assignedTo = assignedTo,
+        assignedBy = assignedBy,
         createdBy = createdBy,
         createdAt = Date(createdAt),
         updatedAt = Date(updatedAt),
-        tags = tags?.split(",") ?: emptyList(),
-        attachments = attachments?.split(",") ?: emptyList()
+        tags = tags,
+        attachments = attachments
     )
 }
 
@@ -78,16 +104,24 @@ fun Task.toEntity(): TaskEntity {
         id = id,
         title = title,
         description = description,
-        priority = priority.name,
+        priority = priority,
         status = status.name,
         dueDate = dueDate?.time,
-        assigneeId = assigneeId,
-        assigneeName = assigneeName,
+        assignedTo = assignedTo,
+        assignedBy = assignedBy,
         createdBy = createdBy,
         createdAt = createdAt.time,
         updatedAt = updatedAt.time,
-        tags = tags.joinToString(","),
-        attachments = attachments.joinToString(",")
+        completedAt = completedAt?.time,
+        estimatedHours = estimatedHours,
+        actualHours = actualHours,
+        category = category,
+        location = location,
+        reminderDate = reminderDate?.time,
+        isRecurring = isRecurring,
+        recurringPattern = recurringPattern,
+        tags = tags,
+        attachments = attachments
     )
 }
 
@@ -96,16 +130,24 @@ fun TaskEntity.toDomainModel(): Task {
         id = id,
         title = title,
         description = description,
-        priority = TaskPriority.valueOf(priority),
+        priority = priority,
         status = TaskStatus.valueOf(status),
         dueDate = dueDate?.let { Date(it) },
-        assigneeId = assigneeId,
-        assigneeName = assigneeName,
+        assignedTo = assignedTo,
+        assignedBy = assignedBy,
         createdBy = createdBy,
         createdAt = Date(createdAt),
         updatedAt = Date(updatedAt),
-        tags = if (tags.isNotEmpty()) tags.split(",") else emptyList(),
-        attachments = if (attachments.isNotEmpty()) attachments.split(",") else emptyList()
+        completedAt = completedAt?.let { Date(it) },
+        estimatedHours = estimatedHours,
+        actualHours = actualHours,
+        category = category,
+        location = location,
+        reminderDate = reminderDate?.let { Date(it) },
+        isRecurring = isRecurring,
+        recurringPattern = recurringPattern,
+        tags = tags,
+        attachments = attachments
     )
 }
 
@@ -114,111 +156,23 @@ fun Task.toDto(): TaskDto {
         id = id,
         title = title,
         description = description,
-        priority = priority.name,
+        priority = priority,
         status = status.name,
         dueDate = dueDate?.time,
-        assigneeId = assigneeId,
-        assigneeName = assigneeName,
+        assignedTo = assignedTo,
+        assignedBy = assignedBy,
         createdBy = createdBy,
         createdAt = createdAt.time,
         updatedAt = updatedAt.time,
-        tags = tags.joinToString(","),
-        attachments = attachments.joinToString(",")
-    )
-}
-
-// Message and Conversation Mappers
-fun ConversationDto.toDomainModel(): Conversation {
-    return Conversation(
-        id = id,
-        participantIds = participantIds.split(","),
-        participantNames = participantNames.split(","),
-        lastMessage = lastMessage,
-        lastMessageTime = Date(lastMessageTime),
-        isRead = isRead,
-        isMuted = isMuted,
-        createdAt = Date(createdAt)
-    )
-}
-
-fun Conversation.toEntity(): ConversationEntity {
-    return ConversationEntity(
-        id = id,
-        participantIds = participantIds.joinToString(","),
-        participantNames = participantNames.joinToString(","),
-        lastMessage = lastMessage,
-        lastMessageTime = lastMessageTime.time,
-        isRead = isRead,
-        isMuted = isMuted,
-        createdAt = createdAt.time
-    )
-}
-
-fun ConversationEntity.toDomainModel(): Conversation {
-    return Conversation(
-        id = id,
-        participantIds = participantIds.split(","),
-        participantNames = participantNames.split(","),
-        lastMessage = lastMessage,
-        lastMessageTime = Date(lastMessageTime),
-        isRead = isRead,
-        isMuted = isMuted,
-        createdAt = Date(createdAt)
-    )
-}
-
-fun MessageDto.toDomainModel(): Message {
-    return Message(
-        id = id,
-        conversationId = conversationId,
-        senderId = senderId,
-        senderName = senderName,
-        content = content,
-        messageType = MessageType.valueOf(messageType),
-        attachmentUrl = attachmentUrl,
-        isRead = isRead,
-        timestamp = Date(timestamp)
-    )
-}
-
-fun Message.toEntity(): MessageEntity {
-    return MessageEntity(
-        id = id,
-        conversationId = conversationId,
-        senderId = senderId,
-        senderName = senderName,
-        content = content,
-        messageType = messageType.name,
-        attachmentUrl = attachmentUrl,
-        isRead = isRead,
-        timestamp = timestamp.time
-    )
-}
-
-fun MessageEntity.toDomainModel(): Message {
-    return Message(
-        id = id,
-        conversationId = conversationId,
-        senderId = senderId,
-        senderName = senderName,
-        content = content,
-        messageType = MessageType.valueOf(messageType),
-        attachmentUrl = attachmentUrl,
-        isRead = isRead,
-        timestamp = Date(timestamp)
-    )
-}
-
-fun Message.toDto(): MessageDto {
-    return MessageDto(
-        id = id,
-        conversationId = conversationId,
-        senderId = senderId,
-        senderName = senderName,
-        content = content,
-        messageType = messageType.name,
-        attachmentUrl = attachmentUrl,
-        isRead = isRead,
-        timestamp = timestamp.time
+        completedAt = completedAt?.time,
+        estimatedHours = estimatedHours,
+        actualHours = actualHours,
+        category = category,
+        location = location,
+        reminderDate = reminderDate?.time,
+        isRecurring = isRecurring,
+        recurringPattern = recurringPattern,
+        tags = tags,
+        attachments = attachments
     )
 }

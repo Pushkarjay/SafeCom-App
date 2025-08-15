@@ -6,6 +6,5 @@ import android.os.Parcelable
 @Parcelize
 data class ResetPasswordRequestDto(
     val token: String,
-    val newPassword: String,
-    val confirmPassword: String
+    val newPassword: String
 ) : Parcelable

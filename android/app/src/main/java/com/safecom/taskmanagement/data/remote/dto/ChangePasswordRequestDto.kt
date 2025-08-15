@@ -6,6 +6,5 @@ import android.os.Parcelable
 @Parcelize
 data class ChangePasswordRequestDto(
     val currentPassword: String,
-    val newPassword: String,
-    val confirmPassword: String
+    val newPassword: String
 ) : Parcelable
