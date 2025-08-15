@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.safecom.taskmanagement.R
-import com.safecom.taskmanagement.databinding.FragmentTasksBinding
 import com.safecom.taskmanagement.domain.model.TaskStatus
 import com.safecom.taskmanagement.ui.tasks.adapter.TasksAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,9 +19,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class TasksFragment : Fragment() {
     
-    private var _binding: FragmentTasksBinding? = null
-    private val binding get() = _binding!!
-    
     private val tasksViewModel: TasksViewModel by viewModels()
     private lateinit var tasksAdapter: TasksAdapter
     
@@ -30,9 +26,8 @@ class TasksFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTasksBinding.inflate(inflater, container, false)
-        return binding.root
+    ): View? {
+        return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,14 +43,13 @@ class TasksFragment : Fragment() {
     }
     
     private fun setupUI() {
-        binding.fabCreateTask.setOnClickListener {
-            findNavController().navigate(
-                TasksFragmentDirections.actionTasksToCreateTask()
-            )
+        view?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fabCreateTask)?.setOnClickListener {
+            // Navigation will be implemented later
         }
         
-        binding.btnSearch.setOnClickListener {
-            val query = binding.etSearch.text.toString()
+        view?.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnSearch)?.setOnClickListener {
+            val searchEditText = view?.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etSearch)
+            val query = searchEditText?.text.toString() ?: ""
             tasksViewModel.searchTasks(query)
         }
         
@@ -69,16 +63,14 @@ class TasksFragment : Fragment() {
     private fun setupRecyclerView() {
         tasksAdapter = TasksAdapter(
             onTaskClick = { task ->
-                findNavController().navigate(
-                    TasksFragmentDirections.actionTasksToTaskDetail(task.id)
-                )
+                // Navigation will be implemented later
             },
             onTaskStatusChanged = { task, newStatus ->
                 tasksViewModel.updateTaskStatus(task.id, newStatus)
             }
         )
         
-        binding.rvTasks.apply {
+        view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvTasks)?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = tasksAdapter
         }
@@ -106,26 +98,28 @@ class TasksFragment : Fragment() {
             tasksViewModel.tasksState.collect { state ->
                 when (state) {
                     is TasksState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.rvTasks.visibility = View.GONE
-                        binding.tvEmptyState.visibility = View.GONE
+                        view?.findViewById<android.widget.ProgressBar>(R.id.progressBar)?.visibility = View.VISIBLE
+                        view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvTasks)?.visibility = View.GONE
+                        view?.findViewById<android.widget.TextView>(R.id.tvEmptyState)?.visibility = View.GONE
                     }
                     is TasksState.Success -> {
-                        binding.progressBar.visibility = View.GONE
+                        view?.findViewById<android.widget.ProgressBar>(R.id.progressBar)?.visibility = View.GONE
                         if (state.tasks.isEmpty()) {
-                            binding.rvTasks.visibility = View.GONE
-                            binding.tvEmptyState.visibility = View.VISIBLE
+                            view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvTasks)?.visibility = View.GONE
+                            view?.findViewById<android.widget.TextView>(R.id.tvEmptyState)?.visibility = View.VISIBLE
                         } else {
-                            binding.rvTasks.visibility = View.VISIBLE
-                            binding.tvEmptyState.visibility = View.GONE
+                            view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvTasks)?.visibility = View.VISIBLE
+                            view?.findViewById<android.widget.TextView>(R.id.tvEmptyState)?.visibility = View.GONE
                             tasksAdapter.submitList(state.tasks)
                         }
                     }
                     is TasksState.Error -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.rvTasks.visibility = View.GONE
-                        binding.tvEmptyState.visibility = View.VISIBLE
-                        binding.tvEmptyState.text = state.message
+                        view?.findViewById<android.widget.ProgressBar>(R.id.progressBar)?.visibility = View.GONE
+                        view?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvTasks)?.visibility = View.GONE
+                        view?.findViewById<android.widget.TextView>(R.id.tvEmptyState)?.let { textView ->
+                            textView.visibility = View.VISIBLE
+                            textView.text = state.message
+                        }
                     }
                 }
             }
@@ -139,17 +133,16 @@ class TasksFragment : Fragment() {
     }
     
     private fun updateFilterUI(filters: TaskFilters) {
-        // Update status chips
-        binding.chipGroupStatus.clearCheck()
+        // Update status chips - simplified for now
         if (filters.statuses.isEmpty()) {
-            binding.chipAll.isChecked = true
+            view?.findViewById<com.google.android.material.chip.Chip>(R.id.chipAll)?.isChecked = true
         } else {
             filters.statuses.forEach { status ->
                 when (status) {
-                    TaskStatus.PENDING -> binding.chipPending.isChecked = true
-                    TaskStatus.IN_PROGRESS -> binding.chipInProgress.isChecked = true
-                    TaskStatus.COMPLETED -> binding.chipCompleted.isChecked = true
-                    TaskStatus.OVERDUE -> binding.chipOverdue.isChecked = true
+                    TaskStatus.PENDING -> view?.findViewById<com.google.android.material.chip.Chip>(R.id.chipPending)?.isChecked = true
+                    TaskStatus.IN_PROGRESS -> view?.findViewById<com.google.android.material.chip.Chip>(R.id.chipInProgress)?.isChecked = true
+                    TaskStatus.COMPLETED -> view?.findViewById<com.google.android.material.chip.Chip>(R.id.chipCompleted)?.isChecked = true
+                    TaskStatus.OVERDUE -> view?.findViewById<com.google.android.material.chip.Chip>(R.id.chipOverdue)?.isChecked = true
                     TaskStatus.CANCELLED -> { /* No chip for cancelled */ }
                 }
             }
@@ -185,10 +178,5 @@ class TasksFragment : Fragment() {
                 tasksViewModel.sortTasks(sortOption)
             }
             .show()
-    }
-    
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

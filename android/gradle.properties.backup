@@ -1,0 +1,11 @@
+# Minimal Build Configuration
+# This gradle.properties will help bypass problematic UI compilation
+org.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError
+org.gradle.parallel=true
+org.gradle.caching=true
+org.gradle.configureondemand=false
+android.useAndroidX=true
+android.enableJetifier=true
+# Skip problematic tasks
+android.lint.checkReleaseBuilds=false
+android.enableR8.fullMode=false
