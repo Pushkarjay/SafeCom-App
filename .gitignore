@@ -209,8 +209,29 @@ deployment/
 *.pem
 *.key
 
+# Security - Keystore files (CRITICAL: Keep keystores secure and private!)
+*.keystore
+*.jks
+android/*.keystore
+android/*.jks
+
 # Documentation source files (keep .md versions only)
 *.docx
 *.pdf
 Software Requirements Specification.docx
 Software Requirements Specification.pdf
+
+# Temporary and test files
+*.tmp
+*.temp
+*.test
+*.backup
+*.bak
+*.orig
+*.rej
+*~
+*.swp
+*.swo
+
+# Build scripts with issues
+android/build_signed_apk.ps1
