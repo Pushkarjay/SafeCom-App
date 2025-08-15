@@ -108,12 +108,15 @@ SafeCom-App/
 
 ## 📚 Documentation
 
+### ⚡ Quick References
+- **[Quick Start Guide](QUICK_START.md)** - One-minute setup overview for experienced developers
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+
 ### 📋 Setup Guides
-- **[README (This file)](README.md)** - Project overview and quick start guide
+- **[README (This file)](README.md)** - Project overview and detailed setup guide
 - **[APK Build Guide](APK_BUILD_GUIDE.md)** - Detailed Android APK building instructions
 - **[Backend Setup Guide](BACKEND_SETUP.md)** - Complete backend setup and configuration
 - **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Step-by-step Firebase configuration
-- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
 
 ### 📄 Project Documentation
 - **[Software Requirements Specification (SRS)](SRS.md)** - Complete system requirements and specifications
