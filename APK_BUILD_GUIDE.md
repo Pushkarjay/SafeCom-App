@@ -3,50 +3,227 @@
 **Project:** SafeCom Task Management Android App  
 **Developer:** Pushkarjay Ajay (pushkarjay.ajay1@gmail.com)  
 **Organization:** SafeCom  
-**Date:** August 15, 2025
+**Date:** August 15, 2025  
+**Last Updated:** August 15, 2025 (Compilation fixes applied)
 
 ## 🚀 Quick Start - Build APK
 
-### Prerequisites
-1. **Java Development Kit (JDK) 11 or higher**
+### 📋 Prerequisites
+
+#### System Requirements
+- **Operating System**: Windows 10/11, macOS 10.15+, or Ubuntu 18.04+
+- **RAM**: Minimum 8GB (16GB recommended)
+- **Storage**: At least 5GB free space for Android build tools
+- **Internet**: Stable connection for downloading dependencies
+
+#### Required Software
+
+1. **Java Development Kit (JDK)**
+   - **Version Required**: JDK 11 or higher (JDK 17 recommended)
+   - **Download**: [Eclipse Temurin JDK](https://adoptium.net/) (recommended) or [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+   - **Installation Guide**: 
+     - Windows: Run the installer and add to PATH
+     - macOS: Install using Homebrew `brew install openjdk@17`
+     - Linux: `sudo apt install openjdk-17-jdk`
+   - **Verification**: 
+     ```bash
+     java -version     # Should show Java 11+ 
+     javac -version    # Should show Java compiler version
+     echo $JAVA_HOME   # Should point to JDK installation
+     ```
+
+2. **Android SDK (Option A: Android Studio)**
+   - **Version**: Android Studio Electric Eel (2022.1.1) or newer
+   - **Download**: [Android Studio](https://developer.android.com/studio)
+   - **Required Components**:
+     - Android SDK Platform 33 (API Level 33) - minimum
+     - Android SDK Platform 34 (API Level 34) - recommended  
+     - Android SDK Build-Tools 33.0.0 or higher
+     - Android SDK Platform-Tools
+     - Android SDK Command-line Tools
+
+3. **Android SDK (Option B: Command Line Tools Only)**
+   - **Download**: [Android SDK Command Line Tools](https://developer.android.com/studio#command-tools)
+   - **Setup**:
+     ```bash
+     # Create Android SDK directory
+     mkdir ~/Android/Sdk  # Linux/macOS
+     mkdir C:\Android\Sdk # Windows
+     
+     # Extract command line tools
+     # Set ANDROID_HOME environment variable
+     export ANDROID_HOME=~/Android/Sdk
+     export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+     export PATH=$PATH:$ANDROID_HOME/platform-tools
+     
+     # Install required packages
+     sdkmanager "platform-tools" "platforms;android-33" "platforms;android-34" "build-tools;33.0.0"
+     ```
+
+4. **Git Version Control**
+   - **Download**: [Git SCM](https://git-scm.com/)
+   - **Verification**: `git --version`
+
+#### Environment Variables Setup
+
+1. **Windows (PowerShell)**:
    ```powershell
-   # Check if Java is installed
-   java -version
+   # Set JAVA_HOME
+   [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Eclipse Adoptium\jdk-17.0.8.101-hotspot", [EnvironmentVariableTarget]::User)
+   
+   # Set ANDROID_HOME (if using command line tools)
+   [Environment]::SetEnvironmentVariable("ANDROID_HOME", "C:\Android\Sdk", [EnvironmentVariableTarget]::User)
+   
+   # Add to PATH
+   $env:PATH += ";$env:JAVA_HOME\bin;$env:ANDROID_HOME\platform-tools;$env:ANDROID_HOME\cmdline-tools\latest\bin"
    ```
-   If not installed, download from: https://adoptium.net/
 
-2. **Android SDK** (if building locally)
-   - Download Android Studio: https://developer.android.com/studio
-   - Or install SDK tools only
+2. **macOS/Linux (bash/zsh)**:
+   ```bash
+   # Add to ~/.bashrc or ~/.zshrc
+   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk  # Linux
+   export JAVA_HOME=/usr/local/opt/openjdk@17      # macOS
+   export ANDROID_HOME=$HOME/Android/Sdk
+   export PATH=$PATH:$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin
+   ```
 
-### Method 1: Build with Gradle Wrapper (Recommended)
+### 🔧 Method 1: Build with Gradle Wrapper (Recommended)
 
-Open PowerShell as Administrator and run:
+#### Step 1: Clone and Navigate
+```bash
+# Clone repository (if not already done)
+git clone https://github.com/Pushkarjay/SafeCom-App.git
 
-```powershell
-# Navigate to the Android project directory
-cd "e:\SafeCom-App\android"
-
-# Make gradlew executable (if needed)
-# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Build release APK
-.\gradlew.bat assembleRelease
-
-# The APK will be generated at:
-# android\app\build\outputs\apk\release\app-release.apk
+# Navigate to Android project directory
+cd SafeCom-App/android
 ```
 
-### Method 2: Build with Android Studio
+#### Step 2: Verify Environment
+```bash
+# Check Java version
+java -version
 
-1. Open Android Studio
-2. Open project: `e:\SafeCom-App\android`
-3. Go to **Build** → **Generate Signed Bundle / APK**
-4. Select **APK** → **Next**
-5. Choose **release** build variant
-6. Click **Finish**
+# Check if gradlew is executable
+ls -la gradlew  # Linux/macOS
+dir gradlew*    # Windows
 
-## 📱 APK Location
+# Make gradlew executable (if needed on Linux/macOS)
+chmod +x gradlew
+```
+
+#### Step 3: Clean Previous Builds
+```bash
+# Clean any previous builds
+./gradlew clean      # Linux/macOS
+.\gradlew.bat clean  # Windows
+```
+
+#### Step 4: Build APK
+```bash
+# Debug build (for testing)
+./gradlew assembleDebug      # Linux/macOS
+.\gradlew.bat assembleDebug  # Windows
+
+# Release build (for distribution)
+./gradlew assembleRelease      # Linux/macOS
+.\gradlew.bat assembleRelease  # Windows
+```
+
+### 🎯 Method 2: Build with Android Studio
+
+#### Step 1: Import Project
+1. **Open Android Studio**
+2. **File** → **Open**
+3. Navigate to `SafeCom-App/android` folder
+4. Click **OK** to import project
+
+#### Step 2: Sync Project
+1. **Auto-sync**: Wait for automatic Gradle sync
+2. **Manual sync**: Click **Sync Now** if prompted
+3. **Troubleshooting**: If sync fails:
+   - Check JDK version in **File** → **Project Structure** → **SDK Location**
+   - Verify internet connection
+   - Clear Gradle cache: **File** → **Invalidate and Restart**
+
+#### Step 3: Build APK
+1. **Build** → **Generate Signed Bundle / APK**
+2. Select **APK** → **Next**
+3. Choose build variant:
+   - **debug**: For testing
+   - **release**: For distribution (requires signing key)
+4. Click **Finish**
+
+### 📱 APK Output Locations
+
+After successful build, APK files will be generated at:
+
+#### Debug APK
+```
+SafeCom-App/android/app/build/outputs/apk/debug/
+├── app-debug.apk                    # Main APK file
+└── output-metadata.json            # Build metadata
+```
+
+#### Release APK
+```
+SafeCom-App/android/app/build/outputs/apk/release/
+├── app-release-unsigned.apk         # Unsigned APK (needs signing)
+├── app-release.apk                  # Signed APK (if keystore configured)
+└── output-metadata.json            # Build metadata
+```
+
+### 🔐 APK Signing (For Release Distribution)
+
+#### Generate Signing Key (First Time Only)
+```bash
+# Generate keystore file
+keytool -genkey -v -keystore safecom-release-key.keystore -alias safecom -keyalg RSA -keysize 2048 -validity 10000
+
+# Follow prompts to set passwords and information
+```
+
+#### Configure Signing in build.gradle
+```gradle
+// In android/app/build.gradle
+android {
+    signingConfigs {
+        release {
+            storeFile file('safecom-release-key.keystore')
+            storePassword 'your-store-password'
+            keyAlias 'safecom'
+            keyPassword 'your-key-password'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            // other release configurations
+        }
+    }
+}
+```
+
+### ✅ Verification & Testing
+
+#### APK Installation
+```bash
+# Install on connected device/emulator
+adb install app-debug.apk           # Debug version
+adb install app-release.apk         # Release version
+
+# Verify installation
+adb shell pm list packages | grep safecom
+```
+
+#### APK Information
+```bash
+# Get APK information
+aapt dump badging app-release.apk
+
+# Check APK size
+ls -lh app-release.apk              # Linux/macOS
+dir app-release.apk                 # Windows
+```
 
 After successful build, find your APK at:
 ```

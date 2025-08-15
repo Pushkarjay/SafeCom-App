@@ -106,59 +106,262 @@ SafeCom-App/
 └── README.md               # This file
 ```
 
-## � Documentation
+## 📚 Documentation
 
-### Project Documentation
+### 📋 Setup Guides
+- **[README (This file)](README.md)** - Project overview and quick start guide
+- **[APK Build Guide](APK_BUILD_GUIDE.md)** - Detailed Android APK building instructions
+- **[Backend Setup Guide](BACKEND_SETUP.md)** - Complete backend setup and configuration
+- **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Step-by-step Firebase configuration
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+
+### 📄 Project Documentation
 - **[Software Requirements Specification (SRS)](SRS.md)** - Complete system requirements and specifications
-- **[Backend API Documentation](backend/README.md)** - Backend setup and API reference
-- **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Firebase configuration instructions
-- **[Project Documentation](PROJECT_DOCUMENTATION.md)** - Additional project information
+- **[Credits](CREDITS.md)** - Project contributors and acknowledgments
+- **[License](LICENSE)** - MIT License details
 
-### Development Guides
+### 🔗 Quick Links
 - [Android Development Setup](#3-android-setup)
 - [Backend Development Setup](#2-backend-setup)
 - [Firebase Configuration](#4-firebase-configuration)
+- [Common Issues & Solutions](TROUBLESHOOTING.md)
 - [Contributing Guidelines](#🤝-contributing)
 
-## �🚀 Quick Start
+## 🚀 Quick Start
 
-### Prerequisites
-- Node.js 16+ 
-- MongoDB 4.4+
-- Android Studio
-- Firebase Project
-- Git
+### 📋 Prerequisites
 
-### 1. Clone Repository
+#### System Requirements
+- **Operating System**: Windows 10/11, macOS 10.15+, or Ubuntu 18.04+
+- **RAM**: Minimum 8GB (16GB recommended for Android development)
+- **Storage**: At least 10GB free space
+- **Internet**: Stable connection for downloading dependencies
+
+#### Required Software
+
+1. **Java Development Kit (JDK)**
+   - **Version**: JDK 11 or higher (JDK 17 recommended)
+   - **Download**: [Eclipse Temurin](https://adoptium.net/) or [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+   - **Installation**: Follow platform-specific installation guide
+   - **Verification**: Run `java -version` and `javac -version` in terminal
+
+2. **Node.js & npm**
+   - **Version**: Node.js 16.0.0 or higher (18.x LTS recommended)
+   - **Download**: [Node.js Official](https://nodejs.org/)
+   - **Verification**: Run `node --version` and `npm --version` in terminal
+
+3. **Android Studio**
+   - **Version**: Android Studio Electric Eel (2022.1.1) or newer
+   - **Download**: [Android Studio](https://developer.android.com/studio)
+   - **Components**: Install Android SDK, Android SDK Platform-Tools, Android SDK Build-Tools
+   - **Android SDK**: API Level 33 (Android 13) minimum, API Level 34 (Android 14) recommended
+
+4. **Git Version Control**
+   - **Download**: [Git SCM](https://git-scm.com/)
+   - **Verification**: Run `git --version` in terminal
+
+5. **Database (Choose One)**
+   - **MongoDB**: Version 4.4+ ([MongoDB Community](https://www.mongodb.com/try/download/community))
+   - **MongoDB Atlas**: Cloud-hosted MongoDB ([MongoDB Atlas](https://www.mongodb.com/atlas))
+
+6. **Firebase Project**
+   - Google account for Firebase Console access
+   - Firebase project with enabled services (Authentication, Firestore, Storage, FCM)
+
+#### Optional Tools
+- **Postman** or **Insomnia**: For API testing
+- **MongoDB Compass**: GUI for MongoDB
+- **VS Code**: For backend development
+
+### 📱 1. Clone Repository
 ```bash
+# Clone the repository
 git clone https://github.com/Pushkarjay/SafeCom-App.git
+
+# Navigate to project directory
 cd SafeCom-App
+
+# Verify project structure
+dir  # On Windows
+ls   # On macOS/Linux
 ```
 
-### 2. Backend Setup
+### 🌐 2. Backend Setup
+
+#### Step 1: Install Dependencies
 ```bash
+# Navigate to backend directory
 cd backend
+
+# Install Node.js dependencies
 npm install
-cp .env.example .env
-# Edit .env with your configuration
-npm run dev
+
+# Verify installation
+npm list
 ```
 
-### 3. Android Setup
+#### Step 2: Environment Configuration
 ```bash
-cd android
-# Open in Android Studio
-# Sync Gradle files
-# Run the app
+# Copy example environment file
+cp .env.example .env    # On macOS/Linux
+copy .env.example .env  # On Windows
+
+# Edit .env file with your configuration
+# Use your preferred text editor (VS Code, Notepad++, etc.)
+notepad .env            # On Windows
+nano .env               # On Linux
+open -a TextEdit .env   # On macOS
 ```
 
-### 4. Firebase Configuration
+#### Step 3: Database Setup
+```bash
+# Option A: Local MongoDB
+# Make sure MongoDB is running locally on port 27017
 
-1. Create a Firebase project at https://console.firebase.google.com
-2. Enable Authentication, Firestore, Cloud Messaging, and Storage
-3. Download `google-services.json` and place in `android/app/`
-4. Download Firebase Admin SDK service account key
-5. Add Firebase configuration to backend `.env` file
+# Option B: MongoDB Atlas
+# Update MONGODB_URI in .env with your Atlas connection string
+```
+
+#### Step 4: Start Backend Server
+```bash
+# Development mode with auto-reload
+npm run dev
+
+# Production mode
+npm start
+
+# Verify server is running
+# Open browser: http://localhost:3000
+```
+
+### 📱 3. Android Setup
+
+#### Step 1: Prepare Development Environment
+1. **Open Android Studio**
+2. **SDK Manager**: Tools → SDK Manager
+   - Install Android SDK Platform 33 & 34
+   - Install Android SDK Build-Tools 33.0.0+
+   - Install Android Emulator (if testing without physical device)
+
+#### Step 2: Import Project
+```bash
+# Open Android Studio
+# File → Open → Navigate to SafeCom-App/android folder
+# Select the 'android' folder and click OK
+```
+
+#### Step 3: Gradle Sync
+1. **Auto-sync**: Android Studio should automatically sync Gradle files
+2. **Manual sync**: If not, click "Sync Now" when prompted
+3. **Troubleshooting**: If sync fails, check:
+   - JDK version (must be JDK 11+)
+   - Internet connection
+   - Gradle wrapper permissions
+
+#### Step 4: Build Project
+```bash
+# Command line build (from android directory)
+cd android
+
+# Debug build
+./gradlew assembleDebug      # On macOS/Linux
+.\gradlew.bat assembleDebug  # On Windows
+
+# Release build
+./gradlew assembleRelease      # On macOS/Linux
+.\gradlew.bat assembleRelease  # On Windows
+```
+
+#### Step 5: Run Application
+1. **Physical Device**:
+   - Enable Developer Options and USB Debugging
+   - Connect device via USB
+   - Click "Run" in Android Studio
+
+2. **Emulator**:
+   - Create AVD (Android Virtual Device) in Android Studio
+   - Start emulator and click "Run"
+
+### 🔥 4. Firebase Configuration
+
+#### Step 1: Create Firebase Project
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Click "Create a project" or "Add project"
+3. Enter project name: `safecom-task-management`
+4. Enable Google Analytics (recommended)
+5. Choose or create Analytics account
+6. Click "Create project"
+
+#### Step 2: Add Android App
+1. In Firebase Console, click "Add app" → Android icon
+2. **Android package name**: `com.safecom.taskmanagement`
+3. **App nickname**: `SafeCom Android App`
+4. **Debug signing certificate SHA-1**: (Optional for development)
+   ```bash
+   # Get debug certificate fingerprint
+   keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+   ```
+
+#### Step 3: Download Configuration
+1. Download `google-services.json` file
+2. Place in `android/app/google-services.json`
+3. **Important**: Never commit this file to public repositories
+
+#### Step 4: Enable Firebase Services
+1. **Authentication**:
+   - Go to Authentication → Sign-in method
+   - Enable "Email/Password" provider
+   - Enable "Google" provider (optional)
+
+2. **Cloud Firestore**:
+   - Go to Firestore Database
+   - Click "Create database"
+   - Choose "Start in test mode" (for development)
+   - Select location closest to your users
+
+3. **Cloud Storage**:
+   - Go to Storage
+   - Click "Get started"
+   - Choose "Start in test mode"
+   - Select storage location
+
+4. **Cloud Messaging (FCM)**:
+   - Go to Cloud Messaging
+   - Note the Server Key for backend configuration
+
+#### Step 5: Backend Firebase Configuration
+1. Go to Project Settings → Service accounts
+2. Click "Generate new private key"
+3. Download the JSON file
+4. Add Firebase configuration to backend `.env`:
+```env
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Private-Key\n-----END PRIVATE KEY-----\n"
+```
+
+### ✅ 5. Verification & Testing
+
+#### Backend Verification
+```bash
+# Test API endpoints
+curl http://localhost:3000/api/health
+
+# Check MongoDB connection
+# Look for "Connected to MongoDB" in server logs
+```
+
+#### Android Verification
+1. **Build Success**: Ensure Gradle build completes without errors
+2. **App Launch**: App should start and show splash screen
+3. **Firebase Connection**: Check logs for Firebase initialization success
+4. **API Connection**: Verify app can communicate with backend
+
+#### Common Issues & Solutions
+- **Gradle sync failed**: Check JDK version and internet connection
+- **MongoDB connection error**: Verify MongoDB is running and connection string is correct
+- **Firebase authentication failed**: Verify `google-services.json` is in correct location
+- **Build tools not found**: Install required Android SDK components
 
 ## 🔧 Configuration
 
