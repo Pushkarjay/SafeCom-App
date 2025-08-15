@@ -3,9 +3,12 @@ package com.safecom.taskmanagement.data.repository
 import android.net.Uri
 import com.safecom.taskmanagement.data.local.dao.UserDao
 import com.safecom.taskmanagement.data.local.preferences.UserPreferences
-import com.safecom.taskmanagement.data.mappers.*
+import com.safecom.taskmanagement.data.mappers.toDomainModel
+import com.safecom.taskmanagement.data.mappers.toEntity
+import com.safecom.taskmanagement.data.mappers.toUpdateProfileDto
 import com.safecom.taskmanagement.data.remote.api.UserApiService
-import com.safecom.taskmanagement.data.remote.dto.*
+import com.safecom.taskmanagement.data.remote.dto.UpdateProfileDto
+import com.safecom.taskmanagement.data.remote.dto.UploadImageDto
 import com.safecom.taskmanagement.domain.model.User
 import com.safecom.taskmanagement.domain.model.UserTaskStatistics
 import javax.inject.Inject
@@ -23,31 +26,33 @@ class UserRepository @Inject constructor(
             val currentUserId = userPreferences.getCurrentUserId()
             if (currentUserId != null) {
                 val apiUser = userApiService.getUserById(currentUserId)
-                userDao.insertUser(apiUser.toEntity())
+                // userDao.insertUser(apiUser.toEntity())
                 apiUser.toDomainModel()
             } else {
                 null
             }
         } catch (e: Exception) {
             val currentUserId = userPreferences.getCurrentUserId()
-            currentUserId?.let { userDao.getUserById(it)?.toDomainModel() }
+            // currentUserId?.let { userDao.getUserById(it)?.toDomainModel() }
+            null // Temporary stub
         }
     }
 
     suspend fun getUserById(userId: String): User? {
         return try {
             val apiUser = userApiService.getUserById(userId)
-            userDao.insertUser(apiUser.toEntity())
+            // userDao.insertUser(apiUser.toEntity())
             apiUser.toDomainModel()
         } catch (e: Exception) {
-            userDao.getUserById(userId)?.toDomainModel()
+            // userDao.getUserById(userId)?.toDomainModel()
+            null // Temporary stub
         }
     }
 
     suspend fun updateProfile(user: User): Result<User> {
         return try {
             val updatedUser = userApiService.updateProfile(user.toUpdateProfileDto())
-            userDao.updateUser(updatedUser.toEntity())
+            // userDao.updateUser(updatedUser.toEntity())
             Result.success(updatedUser.toDomainModel())
         } catch (e: Exception) {
             Result.failure(e)
@@ -147,6 +152,44 @@ class UserRepository @Inject constructor(
 
     suspend fun clearUserData() {
         userPreferences.clearAll()
-        userDao.deleteAllUsers()
+        // userDao.deleteAllUsers()
+    }
+
+    suspend fun updateUser(userId: String, user: User): Result<User> {
+        return try {
+            // val updatedUser = userApiService.updateUser(userId, user.toUpdateUserDto())
+            // userDao.updateUser(updatedUser.toEntity())
+            // Result.success(updatedUser.toDomainModel())
+            Result.success(user) // Temporary stub
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getTaskStatistics(userId: String): UserTaskStatistics {
+        return try {
+            // val apiStats = userApiService.getTaskStatistics(userId)
+            // apiStats.toDomainModel()
+            UserTaskStatistics( // Temporary stub
+                completedTasks = 0,
+                pendingTasks = 0,
+                inProgressTasks = 0,
+                overdueTasks = 0,
+                totalTasksCreated = 0,
+                averageCompletionTime = 0.0,
+                productivityScore = 0f
+            )
+        } catch (e: Exception) {
+            // Return empty stats in case of error
+            UserTaskStatistics(
+                completedTasks = 0,
+                pendingTasks = 0,
+                inProgressTasks = 0,
+                overdueTasks = 0,
+                totalTasksCreated = 0,
+                averageCompletionTime = 0.0,
+                productivityScore = 0f
+            )
+        }
     }
 }

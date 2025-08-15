@@ -48,7 +48,7 @@ class MessageRepository @Inject constructor(
 
     suspend fun sendMessage(message: Message): Result<Message> {
         return try {
-            val sentMessage = messageApiService.sendMessage(message.toDto())
+            val sentMessage = messageApiService.sendMessage(message.toSendMessageDto())
             messageDao.insertMessage(sentMessage.toEntity())
             Result.success(sentMessage.toDomainModel())
         } catch (e: Exception) {

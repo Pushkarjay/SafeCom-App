@@ -111,28 +111,6 @@ data class CreateConversationDto(
 )
 
 // Extension functions for domain to DTO conversion
-fun Message.toDto(): SendMessageDto {
-    return SendMessageDto(
-        receiverId = receiverId,
-        conversationId = conversationId,
-        content = content,
-        messageType = messageType.name,
-        attachments = attachments.map { it.toDto() },
-        replyToMessageId = replyToMessageId
-    )
-}
-
-fun MessageAttachment.toDto(): MessageAttachmentDto {
-    return MessageAttachmentDto(
-        id = id,
-        fileName = fileName,
-        fileUrl = fileUrl,
-        fileSize = fileSize,
-        mimeType = mimeType,
-        thumbnailUrl = thumbnailUrl
-    )
-}
-
 fun Conversation.toDto(): ConversationDto {
     return ConversationDto(
         id = id,
