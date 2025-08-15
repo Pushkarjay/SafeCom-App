@@ -109,15 +109,15 @@ SafeCom-App/
 ## 📚 Documentation
 
 ### ⚡ Quick References
-- **[Quick Start Guide](QUICK_START.md)** - One-minute setup overview for experienced developers
-- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Quick Start Guide](docs/QUICK_START.md)** - One-minute setup overview for experienced developers
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 
 ### 📋 Setup Guides
 - **[README (This file)](README.md)** - Project overview and detailed setup guide
-- **[APK Build Guide](APK_BUILD_GUIDE.md)** - Detailed Android APK building instructions
-- **[Signed APK Guide](SIGNED_APK_GUIDE.md)** - 🔐 Production-ready signed APK building
-- **[Backend Setup Guide](BACKEND_SETUP.md)** - Complete backend setup and configuration
-- **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Step-by-step Firebase configuration
+- **[APK Build Guide](docs/APK_BUILD_GUIDE.md)** - Detailed Android APK building instructions
+- **[Signed APK Guide](docs/SIGNED_APK_GUIDE.md)** - 🔐 Production-ready signed APK building
+- **[Backend Setup Guide](docs/BACKEND_SETUP.md)** - Complete backend setup and configuration
+- **[Firebase Setup Guide](docs/FIREBASE_SETUP.md)** - Step-by-step Firebase configuration
 
 ### 📄 Project Documentation
 - **[Software Requirements Specification (SRS)](SRS.md)** - Complete system requirements and specifications
@@ -128,6 +128,8 @@ SafeCom-App/
 - [Android Development Setup](#3-android-setup)
 - [Backend Development Setup](#2-backend-setup)
 - [Firebase Configuration](#4-firebase-configuration)
+- [Common Issues & Solutions](docs/TROUBLESHOOTING.md)
+- [Contributing Guidelines](#🤝-contributing)
 - [Common Issues & Solutions](TROUBLESHOOTING.md)
 - [Contributing Guidelines](#🤝-contributing)
 
