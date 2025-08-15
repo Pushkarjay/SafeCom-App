@@ -115,6 +115,7 @@ SafeCom-App/
 ### 📋 Setup Guides
 - **[README (This file)](README.md)** - Project overview and detailed setup guide
 - **[APK Build Guide](APK_BUILD_GUIDE.md)** - Detailed Android APK building instructions
+- **[Signed APK Guide](SIGNED_APK_GUIDE.md)** - 🔐 Production-ready signed APK building
 - **[Backend Setup Guide](BACKEND_SETUP.md)** - Complete backend setup and configuration
 - **[Firebase Setup Guide](FIREBASE_SETUP.md)** - Step-by-step Firebase configuration
 

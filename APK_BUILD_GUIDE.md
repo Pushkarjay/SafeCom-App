@@ -6,6 +6,8 @@
 **Date:** August 15, 2025  
 **Last Updated:** August 15, 2025 (Compilation fixes applied)
 
+> 🔐 **Looking for signed APK for production?** Check out the **[Signed APK Guide](SIGNED_APK_GUIDE.md)** for building production-ready signed APKs for app store distribution.
+
 ## 🚀 Quick Start - Build APK
 
 ### 📋 Prerequisites
