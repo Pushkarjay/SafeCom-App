@@ -52,12 +52,6 @@ class TasksFragment : Fragment() {
             val query = searchEditText?.text.toString() ?: ""
             tasksViewModel.searchTasks(query)
         }
-        
-        binding.etSearch.setOnEditorActionListener { _, _, _ ->
-            val query = binding.etSearch.text.toString()
-            tasksViewModel.searchTasks(query)
-            true
-        }
     }
     
     private fun setupRecyclerView() {
@@ -77,8 +71,8 @@ class TasksFragment : Fragment() {
     }
     
     private fun setupFilters() {
-        // Status filter chips
-        binding.chipGroupFilters.setOnCheckedStateChangeListener { group, checkedIds ->
+        // Status filter chips - simplified implementation
+        view?.findViewById<com.google.android.material.chip.ChipGroup>(R.id.chipGroupFilters)?.setOnCheckedStateChangeListener { group, checkedIds ->
             val selectedStatuses = checkedIds.mapNotNull { chipId ->
                 when (chipId) {
                     R.id.chipAll -> null
