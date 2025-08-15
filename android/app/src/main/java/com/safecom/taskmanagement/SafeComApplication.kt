@@ -38,6 +38,13 @@ class SafeComApplication : Application(), Configuration.Provider {
         const val DEVELOPER_EMAIL = "pushkarjay.ajay1@gmail.com"
         const val VERSION = "1.0.0"
         const val REPOSITORY_URL = "https://github.com/Pushkarjay/SafeCom-App"
+        
+        // Notification Channels
+        const val CHANNEL_HIGH_PRIORITY = "high_priority_channel"
+        const val CHANNEL_MEDIUM_PRIORITY = "medium_priority_channel"
+        const val CHANNEL_LOW_PRIORITY = "low_priority_channel"
+        const val CHANNEL_MESSAGES = "messages_channel"
+        const val CHANNEL_SYSTEM = "system_channel"
     }
 
     override fun onCreate() {
@@ -152,13 +159,5 @@ class SafeComApplication : Application(), Configuration.Provider {
                 )
             )
         }
-    }
-
-    companion object {
-        const val CHANNEL_HIGH_PRIORITY = "high_priority_channel"
-        const val CHANNEL_MEDIUM_PRIORITY = "medium_priority_channel"
-        const val CHANNEL_LOW_PRIORITY = "low_priority_channel"
-        const val CHANNEL_MESSAGES = "messages_channel"
-        const val CHANNEL_SYSTEM = "system_channel"
     }
 }

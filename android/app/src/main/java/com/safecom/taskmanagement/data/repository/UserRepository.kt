@@ -3,7 +3,9 @@ package com.safecom.taskmanagement.data.repository
 import android.net.Uri
 import com.safecom.taskmanagement.data.local.dao.UserDao
 import com.safecom.taskmanagement.data.local.preferences.UserPreferences
+import com.safecom.taskmanagement.data.mappers.*
 import com.safecom.taskmanagement.data.remote.api.UserApiService
+import com.safecom.taskmanagement.data.remote.dto.*
 import com.safecom.taskmanagement.domain.model.User
 import com.safecom.taskmanagement.domain.model.UserTaskStatistics
 import javax.inject.Inject
@@ -54,7 +56,11 @@ class UserRepository @Inject constructor(
 
     suspend fun updateProfileImage(imageUri: Uri): Result<String> {
         return try {
-            val imageUrl = userApiService.uploadProfileImage(imageUri)
+            val uploadDto = UploadImageDto(
+                imageUri = imageUri.toString(),
+                fileName = "profile_${System.currentTimeMillis()}.jpg"
+            )
+            val imageUrl = userApiService.uploadProfileImage(uploadDto)
             val currentUser = getCurrentUser()
             currentUser?.let { user ->
                 val updatedUser = user.copy(profileImageUrl = imageUrl)

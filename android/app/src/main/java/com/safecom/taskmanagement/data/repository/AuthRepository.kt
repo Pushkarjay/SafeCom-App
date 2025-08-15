@@ -1,7 +1,9 @@
 package com.safecom.taskmanagement.data.repository
 
 import com.safecom.taskmanagement.data.local.preferences.UserPreferences
+import com.safecom.taskmanagement.data.mappers.*
 import com.safecom.taskmanagement.data.remote.api.AuthApiService
+import com.safecom.taskmanagement.data.remote.dto.*
 import com.safecom.taskmanagement.domain.model.User
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +17,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun login(email: String, password: String): Result<User> {
         return try {
-            val loginResponse = authApiService.login(email, password)
+            val loginResponse = authApiService.login(LoginRequestDto(email, password))
             
             // Save authentication token
             userPreferences.setAuthToken(loginResponse.token)
@@ -56,7 +58,9 @@ class AuthRepository @Inject constructor(
         role: String = "Employee"
     ): Result<User> {
         return try {
-            val registerResponse = authApiService.register(name, email, password, role)
+            val registerResponse = authApiService.register(
+                RegisterRequestDto(name, email, password, password, role)
+            )
             
             // Save authentication token
             userPreferences.setAuthToken(registerResponse.token)
@@ -93,7 +97,7 @@ class AuthRepository @Inject constructor(
         return try {
             val refreshToken = userPreferences.getRefreshToken()
             if (refreshToken != null) {
-                val tokenResponse = authApiService.refreshToken(refreshToken)
+                val tokenResponse = authApiService.refreshToken(RefreshTokenRequestDto(refreshToken))
                 userPreferences.setAuthToken(tokenResponse.token)
                 userPreferences.setRefreshToken(tokenResponse.refreshToken)
                 Result.success(tokenResponse.token)
@@ -107,7 +111,9 @@ class AuthRepository @Inject constructor(
 
     suspend fun changePassword(currentPassword: String, newPassword: String): Result<Unit> {
         return try {
-            authApiService.changePassword(currentPassword, newPassword)
+            authApiService.changePassword(
+                ChangePasswordRequestDto(currentPassword, newPassword, newPassword)
+            )
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -116,7 +122,7 @@ class AuthRepository @Inject constructor(
 
     suspend fun forgotPassword(email: String): Result<Unit> {
         return try {
-            authApiService.forgotPassword(email)
+            authApiService.forgotPassword(ForgotPasswordRequestDto(email))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -125,7 +131,9 @@ class AuthRepository @Inject constructor(
 
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit> {
         return try {
-            authApiService.resetPassword(token, newPassword)
+            authApiService.resetPassword(
+                ResetPasswordRequestDto(token, newPassword, newPassword)
+            )
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
