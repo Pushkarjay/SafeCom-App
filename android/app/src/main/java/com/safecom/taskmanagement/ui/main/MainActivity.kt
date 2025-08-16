@@ -19,6 +19,7 @@ import com.safecom.taskmanagement.R
 import com.safecom.taskmanagement.ui.auth.AuthActivity
 import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
