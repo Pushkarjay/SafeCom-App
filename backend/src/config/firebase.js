@@ -5,9 +5,16 @@ let firebaseInitialized = false;
 // Check if Firebase credentials are properly configured
 const hasValidFirebaseConfig = () => {
   return process.env.FIREBASE_PROJECT_ID && 
-         process.env.FIREBASE_PRIVATE_KEY && 
-         process.env.FIREBASE_CLIENT_EMAIL &&
-         process.env.FIREBASE_PRIVATE_KEY !== "-----BEGIN PRIVATE KEY-----\nyour-private-key\n-----END PRIVATE KEY-----\n";
+         (process.env.FIREBASE_PRIVATE_KEY || process.env.FIREBASE_PRIVATE_KEY_BASE64) && 
+         process.env.FIREBASE_CLIENT_EMAIL;
+};
+
+// Get private key from environment (handle both base64 and direct formats)
+const getPrivateKey = () => {
+  if (process.env.FIREBASE_PRIVATE_KEY_BASE64) {
+    return Buffer.from(process.env.FIREBASE_PRIVATE_KEY_BASE64, 'base64').toString('utf8');
+  }
+  return process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
 };
 
 // Initialize Firebase Admin SDK only if credentials are available
@@ -17,7 +24,7 @@ try {
       type: "service_account",
       project_id: process.env.FIREBASE_PROJECT_ID,
       private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-      private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      private_key: getPrivateKey(),
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
       client_id: process.env.FIREBASE_CLIENT_ID,
       auth_uri: "https://accounts.google.com/o/oauth2/auth",

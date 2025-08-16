@@ -111,6 +111,7 @@ uploads/*
 # Firebase service account key
 firebase-service-account.json
 firebase-service-account-*.json
+safecom-task-management-firebase-adminsdk-*.json
 
 # IDE files
 .vscode/
