@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
-const admin = require('../firebase');
+const admin = require('../config/firebase');
 
 class AuthController {
   // Register new user

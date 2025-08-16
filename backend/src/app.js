@@ -11,12 +11,11 @@ require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
 const taskRoutes = require('./routes/tasks');
 const messageRoutes = require('./routes/messages');
 
 // Import middleware
-const { authenticateToken } = require('./middleware/auth');
+const { auth } = require('./middleware/auth');
 const { errorHandler } = require('./middleware/errorHandler');
 
 // Import Firebase admin
@@ -73,8 +72,14 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('✅ Connected to MongoDB');
+  console.log(`Database: ${process.env.MONGODB_URI}`);
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err.message);
+  console.log('Server will continue without database. Some features may not work.');
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -88,9 +93,8 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', authenticateToken, userRoutes);
-app.use('/api/tasks', authenticateToken, taskRoutes);
-app.use('/api/messages', authenticateToken, messageRoutes);
+app.use('/api/tasks', auth, taskRoutes);
+app.use('/api/messages', auth, messageRoutes);
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
@@ -140,6 +144,12 @@ io.on('connection', (socket) => {
 // Push notification helper
 async function sendPushNotification(userId, notification) {
   try {
+    // Check if Firebase is initialized
+    if (!admin.isInitialized()) {
+      console.warn('Firebase not initialized. Skipping push notification.');
+      return;
+    }
+
     // Get user's FCM token from database
     const User = require('./models/User');
     const user = await User.findById(userId);
@@ -155,9 +165,10 @@ async function sendPushNotification(userId, notification) {
       };
       
       await admin.messaging().send(message);
+      console.log('Push notification sent successfully');
     }
   } catch (error) {
-    console.error('Error sending push notification:', error);
+    console.error('Error sending push notification:', error.message);
   }
 }
 
