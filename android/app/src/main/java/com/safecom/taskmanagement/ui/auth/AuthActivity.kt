@@ -141,14 +141,14 @@ class AuthActivity : AppCompatActivity() {
     private fun getSelectedRole(): String {
         return try {
             when (rgUserRole.checkedRadioButtonId) {
-                R.id.radioEmployee -> "employee"
+                R.id.radioEmployee -> "user"
                 R.id.radioManager -> "manager"
                 R.id.radioAdmin -> "admin"
-                else -> "employee"
+                else -> "user"
             }
         } catch (e: Exception) {
-            // If radio group doesn't exist, default to employee for now
-            "employee"
+            // If radio group doesn't exist, default to user for now
+            "user"
         }
     }
     

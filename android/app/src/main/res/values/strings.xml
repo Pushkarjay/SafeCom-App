@@ -1,6 +1,6 @@
 <resources>
     <!-- App Information -->
-    <string name="app_name">SafeCom</string>
+    <string name="app_name">SafeCom Test 1</string>
     <string name="app_developer">Developed by Pushkarjay Ajay</string>
     <string name="app_organization">SafeCom</string>
     <string name="app_version">1.0.0</string>

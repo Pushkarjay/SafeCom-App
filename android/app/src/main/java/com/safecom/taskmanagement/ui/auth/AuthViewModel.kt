@@ -18,7 +18,7 @@ class AuthViewModel @Inject constructor(
     private val _loginResult = MutableStateFlow<AuthResult?>(null)
     val loginResult: StateFlow<AuthResult?> = _loginResult.asStateFlow()
 
-    fun login(email: String, password: String, role: String = "employee") {
+    fun login(email: String, password: String, role: String = "user") {
         viewModelScope.launch {
             try {
                 _loginResult.value = AuthResult.Loading
@@ -46,11 +46,11 @@ class AuthViewModel @Inject constructor(
                                 _loginResult.value = AuthResult.Error("Invalid manager credentials")
                             }
                         }
-                        "employee" -> {
+                        "user" -> {
                             if (email.isNotEmpty() && password.isNotEmpty()) {
-                                _loginResult.value = AuthResult.Success("Employee")
+                                _loginResult.value = AuthResult.Success("User")
                             } else {
-                                _loginResult.value = AuthResult.Error("Invalid employee credentials")
+                                _loginResult.value = AuthResult.Error("Invalid user credentials")
                             }
                         }
                         else -> {
