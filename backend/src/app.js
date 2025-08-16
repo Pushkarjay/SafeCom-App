@@ -83,6 +83,25 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.log('Server will continue without database. Some features may not work.');
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'SafeCom Backend API is running',
+    version: '1.0.0',
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    author: 'Pushkarjay Ajay',
+    organization: 'SafeCom',
+    endpoints: {
+      health: '/health',
+      api_health: '/api/health',
+      auth: '/api/auth',
+      tasks: '/api/tasks',
+      messages: '/api/messages'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -90,6 +109,23 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV
+  });
+});
+
+// API Health check endpoint (for consistency with frontend expectations)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV,
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    services: {
+      auth: 'online',
+      tasks: 'online',
+      messages: 'online',
+      socketio: 'online'
+    }
   });
 });
 
