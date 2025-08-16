@@ -5,10 +5,20 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.safecom.taskmanagement.ui.main.MainActivity
+import com.safecom.taskmanagement.ui.auth.AuthActivity
+import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import com.safecom.taskmanagement.R
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,28 +26,59 @@ class SplashActivity : AppCompatActivity() {
         try {
             setContentView(R.layout.activity_splash)
             
-            // Navigate to main activity after 2 seconds
+            // Check authentication status and navigate accordingly
             Handler(Looper.getMainLooper()).postDelayed({
-                try {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                } catch (e: Exception) {
-                    // If MainActivity fails to start, finish this activity
-                    e.printStackTrace()
-                    finish()
-                }
+                checkAuthenticationAndNavigate()
             }, 2000)
         } catch (e: Exception) {
-            // If splash setup fails, go directly to main activity
+            // If splash setup fails, go directly to auth activity
             e.printStackTrace()
+            navigateToAuth()
+        }
+    }
+    
+    private fun checkAuthenticationAndNavigate() {
+        lifecycleScope.launch {
             try {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            } catch (ex: Exception) {
-                // If everything fails, just finish
-                ex.printStackTrace()
-                finish()
+                val authToken = userPreferences.getAuthToken()
+                val userId = userPreferences.getCurrentUserId()
+                
+                if (!authToken.isNullOrEmpty() && !userId.isNullOrEmpty()) {
+                    // User is logged in, go to main activity
+                    navigateToMain()
+                } else {
+                    // User is not logged in, go to auth activity
+                    navigateToAuth()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // If anything fails, go to auth
+                navigateToAuth()
             }
+        }
+    }
+    
+    private fun navigateToMain() {
+        try {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            navigateToAuth()
+        }
+    }
+    
+    private fun navigateToAuth() {
+        try {
+            val intent = Intent(this, AuthActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            finish()
         }
     }
 }

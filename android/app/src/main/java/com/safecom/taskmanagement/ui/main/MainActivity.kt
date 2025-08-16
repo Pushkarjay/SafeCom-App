@@ -1,112 +1,116 @@
 package com.safecom.taskmanagement.ui.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.TextView
-import android.widget.Button
-import android.view.Gravity
-import android.graphics.Color
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.safecom.taskmanagement.R
+import com.safecom.taskmanagement.ui.auth.AuthActivity
+import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var userPreferences: UserPreferences
+    
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         
-        try {
-            // Create a simple layout programmatically for now
-            createSimpleLayout()
-        } catch (e: Exception) {
-            // If layout creation fails, show a toast and close gracefully
-            e.printStackTrace()
-            Toast.makeText(this, "App initialization error. Please check if backend is running.", Toast.LENGTH_LONG).show()
-            finish()
+        setupNavigation()
+        setupToolbar()
+        setupFab()
+    }
+    
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavView.setupWithNavController(navController)
+        
+        // Define top-level destinations
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.dashboardFragment,
+                R.id.tasksFragment,
+                R.id.messagesFragment,
+                R.id.profileFragment
+            )
+        )
+        
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+    
+    private fun setupToolbar() {
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+    }
+    
+    private fun setupFab() {
+        val fab = findViewById<FloatingActionButton>(R.id.fabCreateTask)
+        fab.setOnClickListener {
+            // Navigate to create task (when implemented)
+            try {
+                navController.navigate(R.id.tasksFragment)
+            } catch (e: Exception) {
+                // If navigation fails, ignore for now
+                e.printStackTrace()
+            }
         }
     }
     
-    private fun createSimpleLayout() {
-        // Create root layout
-        val rootLayout = ConstraintLayout(this).apply {
-            setBackgroundColor(Color.parseColor("#F5F5F5"))
-        }
-        
-        // Create title text
-        val titleText = TextView(this).apply {
-            text = "SafeCom Task Management"
-            textSize = 24f
-            setTextColor(Color.parseColor("#2196F3"))
-            gravity = Gravity.CENTER
-            id = 1000
-        }
-        
-        // Create status text
-        val statusText = TextView(this).apply {
-            text = "App loaded successfully!\n\nOffline Mode Active\n\nTo enable full functionality:\n1. Start the backend server\n2. Install the latest APK\n3. Connect to the internet"
-            textSize = 16f
-            setTextColor(Color.parseColor("#666666"))
-            gravity = Gravity.CENTER
-            id = 1001
-        }
-        
-        // Create refresh button
-        val refreshButton = Button(this).apply {
-            text = "Test Button"
-            setBackgroundColor(Color.parseColor("#2196F3"))
-            setTextColor(Color.WHITE)
-            id = 1002
-            setOnClickListener {
-                Toast.makeText(this@MainActivity, "SafeCom app is working! 🎉", Toast.LENGTH_SHORT).show()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+    
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                logout()
+                true
             }
+            R.id.action_settings -> {
+                // Handle settings action
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        
-        // Add views to layout
-        rootLayout.addView(titleText)
-        rootLayout.addView(statusText)
-        rootLayout.addView(refreshButton)
-        
-        // Set layout parameters
-        val titleParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.WRAP_CONTENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = 200
+    }
+    
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+    
+    private fun logout() {
+        // Clear user preferences using coroutine
+        lifecycleScope.launch {
+            userPreferences.clearAuthData()
+            
+            // Navigate to auth activity
+            val intent = Intent(this@MainActivity, AuthActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
-        titleText.layoutParams = titleParams
-        
-        val statusParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.WRAP_CONTENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topToBottom = titleText.id
-            startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = 100
-            marginStart = 40
-            marginEnd = 40
-        }
-        statusText.layoutParams = statusParams
-        
-        val buttonParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.WRAP_CONTENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            topToBottom = statusText.id
-            startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = 80
-        }
-        refreshButton.layoutParams = buttonParams
-        
-        setContentView(rootLayout)
-        
-        // Show success message
-        Toast.makeText(this, "SafeCom App Started Successfully! 🚀", Toast.LENGTH_LONG).show()
     }
 }

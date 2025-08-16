@@ -5,23 +5,9 @@ import com.safecom.taskmanagement.data.remote.dto.*
 import com.safecom.taskmanagement.domain.model.*
 import java.util.*
 
-// User Mappers
-fun UserDto.toDomainModel(): User {
-    return User(
-        id = id,
-        name = name,
-        email = email,
-        role = role,
-        profileImageUrl = profileImageUrl,
-        department = department,
-        phoneNumber = phoneNumber,
-        createdAt = Date(createdAt),
-        updatedAt = Date(updatedAt),
-        lastLoginAt = lastLoginAt?.let { Date(it) },
-        isActive = isActive,
-        settings = settings.toDomainModel()
-    )
-}
+// Note: UserDto.toDomainModel() is defined in AuthUserDto.kt to avoid circular dependencies
+
+// User Entity Mappers
 
 fun User.toEntity(): UserEntity {
     return UserEntity(
@@ -78,10 +64,24 @@ fun User.toDto(): UserDto {
         id = id,
         name = name,
         email = email,
-        role = role,
         profileImageUrl = profileImageUrl,
+        role = role,
+        department = department,
+        phoneNumber = phoneNumber,
         createdAt = createdAt.time,
-        updatedAt = updatedAt.time
+        updatedAt = updatedAt.time,
+        lastLoginAt = lastLoginAt?.time,
+        isActive = isActive,
+        settings = UserSettingsDto(
+            isDarkModeEnabled = settings.isDarkModeEnabled,
+            isNotificationEnabled = settings.isNotificationEnabled,
+            isPushNotificationEnabled = settings.isPushNotificationEnabled,
+            isEmailNotificationEnabled = settings.isEmailNotificationEnabled,
+            language = settings.language,
+            timezone = settings.timezone,
+            workingHoursStart = settings.workingHoursStart,
+            workingHoursEnd = settings.workingHoursEnd
+        )
     )
 }
 
