@@ -1,28 +1,6 @@
 package com.safecom.taskmanagement.ui.main
 
-im    private fun setupNavigation() {
-        try {
-            val navHostFragment = supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-            navController = navHostFragment.navController
-            
-            val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-            bottomNavView.setupWithNavController(navController)
-            
-            // Define top-level destinations
-            appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.dashboardFragment,
-                    R.id.tasksFragment,
-                    R.id.messagesFragment,
-                    R.id.profileFragment
-                )
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-            // Navigation setup failed, we'll handle this in the fallback UI
-        }
-    }nt.Intent
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -69,24 +47,29 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupNavigation() {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-        
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavView.setupWithNavController(navController)
-        
-        // Define top-level destinations
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.dashboardFragment,
-                R.id.tasksFragment,
-                R.id.messagesFragment,
-                R.id.profileFragment
+        try {
+            val navHostFragment = supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            navController = navHostFragment.navController
+            
+            val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            bottomNavView.setupWithNavController(navController)
+            
+            // Define top-level destinations
+            appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.dashboardFragment,
+                    R.id.tasksFragment,
+                    R.id.messagesFragment,
+                    R.id.profileFragment
+                )
             )
-        )
-        
-        setupActionBarWithNavController(navController, appBarConfiguration)
+            
+            setupActionBarWithNavController(navController, appBarConfiguration)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Navigation setup failed, we'll handle this in the fallback UI
+        }
     }
     
     private fun setupToolbar() {
@@ -149,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         try {
             // Create a simple layout programmatically if the main layout fails
             val textView = android.widget.TextView(this)
-            textView.text = "✅ SafeCom App Loaded Successfully!\n\n🔐 Admin Dashboard\n\n📱 Welcome Administrator!\n\nFeatures:\n• Task Management\n• Team Communication\n• System Administration\n\n🚀 Full features coming soon..."
+            textView.text = "✅ SafeCom Test 1 - Admin Dashboard\n\n🔐 Welcome Administrator!\n\nFeatures:\n• Task Management\n• Team Communication\n• System Administration\n\n🚀 Full features coming soon..."
             textView.textSize = 18f
             textView.setPadding(60, 80, 60, 40)
             textView.gravity = android.view.Gravity.CENTER
