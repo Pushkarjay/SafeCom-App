@@ -26,6 +26,16 @@ android {
             developerEmail: "pushkarjay.ajay1@gmail.com"
         ]
 
+        // Centralized Configuration - Easy Multi-Client Setup
+        // These values can be overridden via gradle.properties or environment variables
+        buildConfigField "String", "API_BASE_URL", "\"${project.findProperty('API_BASE_URL') ?: 'http://10.0.2.2:3000/api/'}\""
+        buildConfigField "String", "COMPANY_NAME", "\"${project.findProperty('COMPANY_NAME') ?: 'SafeCom'}\""
+        buildConfigField "String", "APP_NAME", "\"${project.findProperty('APP_NAME') ?: 'SafeCom Tasks'}\""
+        buildConfigField "String", "SUPPORT_EMAIL", "\"${project.findProperty('SUPPORT_EMAIL') ?: 'support@safecom.com'}\""
+        buildConfigField "String", "PRIVACY_POLICY_URL", "\"${project.findProperty('PRIVACY_POLICY_URL') ?: 'https://safecom.com/privacy'}\""
+        buildConfigField "String", "TERMS_URL", "\"${project.findProperty('TERMS_URL') ?: 'https://safecom.com/terms'}\""
+        buildConfigField "boolean", "DEBUG_MODE", "${project.findProperty('DEBUG_MODE') ?: 'true'}"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -65,6 +75,7 @@ android {
         compose true
         viewBinding false
         dataBinding false
+        buildConfig true  // Enable BuildConfig generation
     }
     
     composeOptions {

@@ -2,6 +2,7 @@ package com.safecom.taskmanagement.di
 
 import android.content.Context
 import androidx.room.Room
+import com.safecom.taskmanagement.BuildConfig
 import com.safecom.taskmanagement.data.local.database.SafeComDatabase
 import com.safecom.taskmanagement.data.local.dao.MessageDao
 import com.safecom.taskmanagement.data.local.dao.TaskDao
@@ -85,7 +86,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.safecom.com/v1/") // Replace with actual API base URL
+            .baseUrl(BuildConfig.API_BASE_URL) // Now uses centralized configuration
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
