@@ -1,3 +1,17 @@
+# =============================================================================
+# SafeCom Task Management App - .gitignore
+# =============================================================================
+# Developer: Pushkarjay Ajay (pushkarjay.ajay1@gmail.com)
+# Organization: SafeCom
+# Date: August 16, 2025
+#
+# SECURITY STRATEGY:
+# - Ignore actual .env and config files (contain credentials)
+# - Keep template files (*.template, *.example) for multi-client setup
+# - Ignore sensitive files like keystores and service account keys
+# - Keep documentation and configuration templates
+# =============================================================================
+
 # Operating System
 .DS_Store
 .DS_Store?
@@ -36,6 +50,8 @@ backend/node_modules/
 backend/.env
 backend/.env.local
 backend/.env.production
+backend/.env.development
+backend/.env.staging
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/logs/
@@ -44,6 +60,10 @@ backend/dist/
 backend/build/
 backend/firebase-service-account.json
 backend/firebase-service-account-*.json
+
+# Keep template files for multi-client setup
+!backend/.env.*.template
+!backend/.env.example
 
 # Android specific
 android/build/
@@ -120,6 +140,10 @@ android/keystore.jks
 android/keystore.properties
 android/app/google-services.json
 
+# Keep configuration templates for multi-client setup
+!android/*.config.properties
+!android/app.config.properties
+
 # Android Gradle
 android/.gradle/
 android/gradle/
@@ -184,12 +208,17 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Environments
+# Environments - Ignore actual .env files but keep templates
 .env
 .env.local
 .env.development
 .env.test
 .env.production
+.env.staging
+
+# Keep environment templates for multi-client setup
+!.env.*.template
+!.env.example
 
 # Package files
 *.tgz
