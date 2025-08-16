@@ -18,22 +18,49 @@ class AuthViewModel @Inject constructor(
     private val _loginResult = MutableStateFlow<AuthResult?>(null)
     val loginResult: StateFlow<AuthResult?> = _loginResult.asStateFlow()
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String, role: String = "employee") {
         viewModelScope.launch {
             try {
                 _loginResult.value = AuthResult.Loading
                 
-                // For now, let's implement a simple validation
-                // In a real app, this would call the API
+                // For now, let's implement a simple validation with role support
+                // In a real app, this would call the API with role validation
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     // Simulate API call delay
                     kotlinx.coroutines.delay(1500)
                     
-                    // For demo purposes, accept any valid email/password
-                    // TODO: Replace with actual API call
-                    // val result = authRepository.login(email, password)
+                    // For demo purposes, accept any valid email/password with the selected role
+                    // Validate role-specific credentials if needed
+                    when (role) {
+                        "admin" -> {
+                            if (email.contains("admin") || password == "admin123") {
+                                _loginResult.value = AuthResult.Success("Administrator")
+                            } else {
+                                _loginResult.value = AuthResult.Error("Invalid admin credentials")
+                            }
+                        }
+                        "manager" -> {
+                            if (email.contains("manager") || password == "manager123") {
+                                _loginResult.value = AuthResult.Success("Manager")
+                            } else {
+                                _loginResult.value = AuthResult.Error("Invalid manager credentials")
+                            }
+                        }
+                        "employee" -> {
+                            if (email.isNotEmpty() && password.isNotEmpty()) {
+                                _loginResult.value = AuthResult.Success("Employee")
+                            } else {
+                                _loginResult.value = AuthResult.Error("Invalid employee credentials")
+                            }
+                        }
+                        else -> {
+                            _loginResult.value = AuthResult.Error("Invalid role selected")
+                        }
+                    }
                     
-                    _loginResult.value = AuthResult.Success
+                    // TODO: Replace with actual API call
+                    // val result = authRepository.login(email, password, role)
+                    
                 } else {
                     _loginResult.value = AuthResult.Error("Please enter valid credentials")
                 }

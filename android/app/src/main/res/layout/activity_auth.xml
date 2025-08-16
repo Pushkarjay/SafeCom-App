@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/sign_in_to_continue"
             android:textAppearance="@style/TextAppearance.SafeCom.Body2"
@@ -52,6 +52,56 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
+
+        <!-- Role Selection -->
+        <TextView
+            android:id="@+id/tvRoleLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Select Role"
+            android:textAppearance="@style/TextAppearance.SafeCom.Body1"
+            android:textColor="@color/md_theme_light_onSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupRole"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRoleLabel">
+
+            <RadioButton
+                android:id="@+id/radioEmployee"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Employee"
+                android:checked="true"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+            <RadioButton
+                android:id="@+id/radioManager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Manager"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+            <RadioButton
+                android:id="@+id/radioAdmin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Admin"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+        </RadioGroup>
 
         <!-- Login Form -->
         <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +114,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitle"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupRole"
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -11,16 +11,23 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.radiobutton.MaterialRadioButton
 import android.widget.TextView
+import android.widget.RadioGroup
 import com.safecom.taskmanagement.R
 import com.safecom.taskmanagement.ui.main.MainActivity
+import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
 
     private val authViewModel: AuthViewModel by viewModels()
+    
+    @Inject
+    lateinit var userPreferences: UserPreferences
     
     private lateinit var tilEmail: TextInputLayout
     private lateinit var tilPassword: TextInputLayout
@@ -31,6 +38,10 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var tvForgotPassword: TextView
     private lateinit var tvError: TextView
     private lateinit var progressBar: CircularProgressIndicator
+    private lateinit var rgUserRole: RadioGroup
+    private lateinit var rbEmployee: MaterialRadioButton
+    private lateinit var rbManager: MaterialRadioButton
+    private lateinit var rbAdmin: MaterialRadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +62,17 @@ class AuthActivity : AppCompatActivity() {
         tvForgotPassword = findViewById(R.id.tvForgotPassword)
         tvError = findViewById(R.id.tvError)
         progressBar = findViewById(R.id.progressBar)
+        
+        // Role selection - we'll add these to the layout
+        try {
+            rgUserRole = findViewById(R.id.radioGroupRole)
+            rbEmployee = findViewById(R.id.radioEmployee)
+            rbManager = findViewById(R.id.radioManager)
+            rbAdmin = findViewById(R.id.radioAdmin)
+        } catch (e: Exception) {
+            // If role selection views don't exist, we'll use a simple approach
+            e.printStackTrace()
+        }
     }
     
     private fun setupClickListeners() {
@@ -72,6 +94,9 @@ class AuthActivity : AppCompatActivity() {
     private fun performLogin() {
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
+        
+        // Get selected role
+        val selectedRole = getSelectedRole()
         
         // Clear previous errors
         tilEmail.error = null
@@ -97,14 +122,33 @@ class AuthActivity : AppCompatActivity() {
             hasError = true
         }
         
+        if (selectedRole.isEmpty()) {
+            showError("Please select your role (Employee, Manager, or Admin)")
+            hasError = true
+        }
+        
         if (hasError) return
         
         // Show progress
         showLoading(true)
         
-        // Perform login
+        // Perform login with role
         lifecycleScope.launch {
-            authViewModel.login(email, password)
+            authViewModel.login(email, password, selectedRole)
+        }
+    }
+    
+    private fun getSelectedRole(): String {
+        return try {
+            when (rgUserRole.checkedRadioButtonId) {
+                R.id.radioEmployee -> "employee"
+                R.id.radioManager -> "manager"
+                R.id.radioAdmin -> "admin"
+                else -> "employee"
+            }
+        } catch (e: Exception) {
+            // If radio group doesn't exist, default to employee for now
+            "employee"
         }
     }
     
@@ -115,8 +159,16 @@ class AuthActivity : AppCompatActivity() {
                 
                 when (result) {
                     is AuthResult.Success -> {
-                        Toast.makeText(this@AuthActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                        navigateToMain()
+                        // Save authentication data including role
+                        val selectedRole = getSelectedRole()
+                        lifecycleScope.launch {
+                            userPreferences.setAuthToken("demo_token_${System.currentTimeMillis()}")
+                            userPreferences.setCurrentUserId("user_${System.currentTimeMillis()}")
+                            userPreferences.setUserRole(selectedRole)
+                            
+                            Toast.makeText(this@AuthActivity, "Login successful! Welcome ${result.role}", Toast.LENGTH_SHORT).show()
+                            navigateToMain()
+                        }
                     }
                     is AuthResult.Error -> {
                         showError(result.message)
@@ -153,6 +205,6 @@ class AuthActivity : AppCompatActivity() {
 
 sealed class AuthResult {
     object Loading : AuthResult()
-    object Success : AuthResult()
+    data class Success(val role: String) : AuthResult()
     data class Error(val message: String) : AuthResult()
 }

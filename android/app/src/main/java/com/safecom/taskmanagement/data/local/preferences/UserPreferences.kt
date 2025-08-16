@@ -35,6 +35,7 @@ class UserPreferences @Inject constructor(
         private const val KEY_AUTH_TOKEN = "auth_token"
         private const val KEY_REFRESH_TOKEN = "refresh_token"
         private const val KEY_CURRENT_USER_ID = "current_user_id"
+        private const val KEY_USER_ROLE = "user_role"
         private const val KEY_DARK_MODE_ENABLED = "dark_mode_enabled"
         private const val KEY_NOTIFICATION_ENABLED = "notification_enabled"
         private const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
@@ -66,6 +67,14 @@ class UserPreferences @Inject constructor(
     
     suspend fun getCurrentUserId(): String? {
         return encryptedPreferences.getString(KEY_CURRENT_USER_ID, null)
+    }
+    
+    suspend fun setUserRole(role: String) {
+        encryptedPreferences.edit().putString(KEY_USER_ROLE, role).apply()
+    }
+    
+    suspend fun getUserRole(): String? {
+        return encryptedPreferences.getString(KEY_USER_ROLE, null)
     }
     
     // Regular preferences
@@ -127,6 +136,7 @@ class UserPreferences @Inject constructor(
             .remove(KEY_AUTH_TOKEN)
             .remove(KEY_REFRESH_TOKEN)
             .remove(KEY_CURRENT_USER_ID)
+            .remove(KEY_USER_ROLE)
             .apply()
     }
 }
