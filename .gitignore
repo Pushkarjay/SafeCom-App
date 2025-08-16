@@ -52,6 +52,7 @@ backend/.env.local
 backend/.env.production
 backend/.env.development
 backend/.env.staging
+backend/.env.render
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/logs/
@@ -60,6 +61,7 @@ backend/dist/
 backend/build/
 backend/firebase-service-account.json
 backend/firebase-service-account-*.json
+backend/google-services.json
 
 # Keep template files for multi-client setup
 !backend/.env.*.template
@@ -68,6 +70,7 @@ backend/firebase-service-account-*.json
 # Android specific
 android/build/
 android/app/build/
+android/app/google-services.json
 
 # Gradle cache and build artifacts
 .gradle/
