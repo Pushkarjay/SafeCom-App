@@ -18,7 +18,7 @@ class AuthViewModel @Inject constructor(
     private val _loginResult = MutableStateFlow<AuthResult?>(null)
     val loginResult: StateFlow<AuthResult?> = _loginResult.asStateFlow()
 
-    fun login(email: String, password: String, role: String = "user") {
+    fun login(email: String, password: String, role: String = "customer") {
         viewModelScope.launch {
             try {
                 _loginResult.value = AuthResult.Loading
@@ -33,24 +33,26 @@ class AuthViewModel @Inject constructor(
                     // Validate role-specific credentials if needed
                     when (role) {
                         "admin" -> {
-                            if (email.contains("admin") || password == "admin123") {
+                            // Admin credentials: admin@safecom.com / admin@123
+                            if ((email == "admin@safecom.com" && password == "admin@123") || 
+                                email.contains("admin") || password == "admin123") {
                                 _loginResult.value = AuthResult.Success("Administrator")
                             } else {
                                 _loginResult.value = AuthResult.Error("Invalid admin credentials")
                             }
                         }
-                        "manager" -> {
-                            if (email.contains("manager") || password == "manager123") {
-                                _loginResult.value = AuthResult.Success("Manager")
+                        "employee" -> {
+                            if (email.contains("employee") || password == "emp123") {
+                                _loginResult.value = AuthResult.Success("Employee")
                             } else {
-                                _loginResult.value = AuthResult.Error("Invalid manager credentials")
+                                _loginResult.value = AuthResult.Error("Invalid employee credentials")
                             }
                         }
-                        "user" -> {
+                        "customer" -> {
                             if (email.isNotEmpty() && password.isNotEmpty()) {
-                                _loginResult.value = AuthResult.Success("User")
+                                _loginResult.value = AuthResult.Success("Customer")
                             } else {
-                                _loginResult.value = AuthResult.Error("Invalid user credentials")
+                                _loginResult.value = AuthResult.Error("Invalid customer credentials")
                             }
                         }
                         else -> {

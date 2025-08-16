@@ -34,7 +34,8 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var etEmail: TextInputEditText
     private lateinit var etPassword: TextInputEditText
     private lateinit var btnLogin: MaterialButton
-    private lateinit var btnBiometricLogin: MaterialButton
+    private lateinit var btnRegister: MaterialButton
+    private lateinit var btnGoogleSignIn: MaterialButton
     private lateinit var tvForgotPassword: TextView
     private lateinit var tvError: TextView
     private lateinit var progressBar: CircularProgressIndicator
@@ -58,7 +59,8 @@ class AuthActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
-        btnBiometricLogin = findViewById(R.id.btnBiometricLogin)
+        btnRegister = findViewById(R.id.btnRegister)
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
         tvForgotPassword = findViewById(R.id.tvForgotPassword)
         tvError = findViewById(R.id.tvError)
         progressBar = findViewById(R.id.progressBar)
@@ -80,9 +82,14 @@ class AuthActivity : AppCompatActivity() {
             performLogin()
         }
         
-        btnBiometricLogin.setOnClickListener {
-            // For now, just show a message that biometric is not implemented yet
-            Toast.makeText(this, "Biometric login will be available in future updates", Toast.LENGTH_SHORT).show()
+        btnRegister.setOnClickListener {
+            // For now, just show a message that registration is coming soon
+            Toast.makeText(this, "Registration feature coming soon", Toast.LENGTH_SHORT).show()
+        }
+        
+        btnGoogleSignIn.setOnClickListener {
+            // For now, just show a message that Google Sign-In is coming soon
+            Toast.makeText(this, "Google Sign-In feature coming soon", Toast.LENGTH_SHORT).show()
         }
         
         tvForgotPassword.setOnClickListener {
@@ -141,14 +148,14 @@ class AuthActivity : AppCompatActivity() {
     private fun getSelectedRole(): String {
         return try {
             when (rgUserRole.checkedRadioButtonId) {
-                R.id.radioEmployee -> "user"
-                R.id.radioManager -> "manager"
+                R.id.radioEmployee -> "customer"
+                R.id.radioManager -> "employee"
                 R.id.radioAdmin -> "admin"
-                else -> "user"
+                else -> "customer"
             }
         } catch (e: Exception) {
-            // If radio group doesn't exist, default to user for now
-            "user"
+            // If radio group doesn't exist, default to customer for now
+            "customer"
         }
     }
     
@@ -187,7 +194,8 @@ class AuthActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         btnLogin.isEnabled = !isLoading
-        btnBiometricLogin.isEnabled = !isLoading
+        btnRegister.isEnabled = !isLoading
+        btnGoogleSignIn.isEnabled = !isLoading
     }
     
     private fun showError(message: String) {

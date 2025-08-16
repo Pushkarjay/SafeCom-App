@@ -81,7 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="User"
+                android:text="Customer"
                 android:checked="true"
                 android:textColor="@color/md_theme_light_onSurface" />
 
@@ -90,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Manager"
+                android:text="Employee"
                 android:textColor="@color/md_theme_light_onSurface" />
 
             <RadioButton
@@ -176,6 +176,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
 
+        <!-- Register Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegister"
+            style="@style/Widget.SafeCom.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
         <!-- Divider -->
         <View
             android:id="@+id/divider"
@@ -184,7 +196,7 @@
             android:layout_marginHorizontal="32dp"
             app:layout_constraintEnd_toStartOf="@+id/tvOr"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister"
             app:layout_constraintBottom_toBottomOf="@+id/tvOr" />
 
         <TextView
@@ -210,15 +222,15 @@
             app:layout_constraintTop_toTopOf="@+id/tvOr"
             app:layout_constraintBottom_toBottomOf="@+id/tvOr" />
 
-        <!-- Biometric Login Button -->
+        <!-- Google Sign-In Button -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBiometricLogin"
+            android:id="@+id/btnGoogleSignIn"
             style="@style/Widget.SafeCom.Button.Outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/sign_in_with_biometric"
-            app:icon="@drawable/ic_fingerprint"
+            android:text="Sign in with Google"
+            app:icon="@drawable/ic_google"
             app:iconGravity="textStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +263,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBiometricLogin"
+            app:layout_constraintTop_toBottomOf="@+id/btnGoogleSignIn"
             tools:visibility="visible" />
 
         <!-- Footer Space -->
