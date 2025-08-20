@@ -3,6 +3,9 @@ package com.safecom.taskmanagement.data.repository
 import com.safecom.taskmanagement.data.local.dao.TaskDao
 import com.safecom.taskmanagement.data.local.entity.toEntity
 import com.safecom.taskmanagement.data.remote.api.TaskApiService
+import com.safecom.taskmanagement.data.remote.api.CompatTaskApiService
+import com.safecom.taskmanagement.data.remote.api.toTaskDto
+import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import com.safecom.taskmanagement.data.remote.dto.toCreateDto
 import com.safecom.taskmanagement.data.remote.dto.toDto
 import com.safecom.taskmanagement.data.remote.dto.UpdateTaskStatusDto
@@ -17,19 +20,29 @@ import javax.inject.Singleton
 @Singleton
 class TaskRepository @Inject constructor(
     private val taskApiService: TaskApiService,
-    private val taskDao: TaskDao
+    private val compatTaskApiService: CompatTaskApiService,
+    private val taskDao: TaskDao,
+    private val userPreferences: UserPreferences
 ) {
 
     suspend fun getAllTasks(): List<Task> {
+        // Prefer compat role-based endpoint first (B option)
         return try {
-            // Try to fetch from API first
-            val apiTasks = taskApiService.getAllTasks()
-            // Cache in local database
-            taskDao.insertTasks(apiTasks.map { it.toDomainModel().toEntity() })
-            apiTasks.map { it.toDomainModel() }
-        } catch (e: Exception) {
-            // Fallback to local data
-            taskDao.getAllTasks().map { it.toDomainModel() }
+            val role = (userPreferences.getUserRole() ?: "employee").lowercase()
+            val compat = compatTaskApiService.getRoleTasks(role)
+            val currentUserId = userPreferences.getCurrentUserId()
+            val mapped = compat.map { it.toTaskDto(currentUserId).toDomainModel() }
+            // Cache
+            taskDao.insertTasks(mapped.map { it.toEntity() })
+            mapped
+        } catch (_: Exception) {
+            try {
+                val apiTasks = taskApiService.getAllTasks()
+                taskDao.insertTasks(apiTasks.map { it.toDomainModel().toEntity() })
+                apiTasks.map { it.toDomainModel() }
+            } catch (e: Exception) {
+                taskDao.getAllTasks().map { it.toDomainModel() }
+            }
         }
     }
 
@@ -144,11 +157,32 @@ class TaskRepository @Inject constructor(
 
     suspend fun getRecentActivities(limit: Int = 10): List<RecentActivity> {
         return try {
-            val apiActivities = taskApiService.getRecentActivities(limit)
-            apiActivities.map { it.toDomainModel() }
-        } catch (e: Exception) {
-            // Return empty list or cached data
-            emptyList()
+            val role = (userPreferences.getUserRole() ?: "employee").lowercase()
+            // Use compat activity endpoint where available (admin/employee)
+            val compatActivities = compatTaskApiService.getRoleActivity(role)
+            compatActivities.map { raw ->
+                // Map minimal fields to domain RecentActivity (fallback values for missing)
+                RecentActivity(
+                    id = raw.timestamp ?: System.currentTimeMillis().toString(),
+                    type = try { ActivityType.valueOf((raw.type ?: "TASK").uppercase()) } catch (_: Exception) { ActivityType.TASK },
+                    title = raw.message ?: "Activity",
+                    description = raw.message ?: "",
+                    timestamp = java.util.Date(
+                        try { java.time.Instant.parse(raw.timestamp).toEpochMilli() } catch (_: Exception) { System.currentTimeMillis() }
+                    ),
+                    userId = userPreferences.getCurrentUserId() ?: "",
+                    userName = "",
+                    userAvatar = null,
+                    taskId = null,
+                    taskTitle = null,
+                    icon = null
+                )
+            }
+        } catch (_: Exception) {
+            try {
+                val apiActivities = taskApiService.getRecentActivities(limit)
+                apiActivities.map { it.toDomainModel() }
+            } catch (e: Exception) { emptyList() }
         }
     }
 

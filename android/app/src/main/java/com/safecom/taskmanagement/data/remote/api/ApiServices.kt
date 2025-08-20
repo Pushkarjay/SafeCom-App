@@ -128,3 +128,84 @@ interface MessageApiService {
     @POST("conversations")
     suspend fun createConversation(@Body conversation: CreateConversationDto): ConversationDto
 }
+
+// Compat role-based lightweight endpoints mapping existing backend /api/{role}/... routes
+interface CompatTaskApiService {
+    @GET("api/{role}/tasks")
+    suspend fun getRoleTasks(@Path("role") role: String): List<CompatTaskRawDto>
+
+    @GET("api/{role}/activity")
+    suspend fun getRoleActivity(@Path("role") role: String): List<CompatActivityRawDto>
+}
+
+// Raw compat task shape (as provided by backend compat router)
+data class CompatTaskRawDto(
+    val _id: String,
+    val title: String,
+    val description: String?,
+    val status: String?,           // e.g. "pending", "in-progress"
+    val priority: String?,        // e.g. "low", "urgent"
+    val assignedTo: AssignedToDto?,
+    val assignedBy: String?,
+    val dueDate: String?,          // ISO date string
+    val createdAt: String?,
+    val updatedAt: String?,
+    val estimatedTime: String?,    // e.g. "5h"
+    val category: String?
+)
+
+data class AssignedToDto(val id: String?, val name: String?)
+
+data class CompatActivityRawDto(
+    val type: String?,
+    val message: String?,
+    val timestamp: String?
+)
+
+// Mappers to existing DTO/domain
+fun CompatTaskRawDto.toTaskDto(currentUserId: String?): TaskDto {
+    val now = System.currentTimeMillis()
+    fun parseDate(s: String?): Long? = try { if (s==null) null else java.time.Instant.parse(s).toEpochMilli() } catch (_: Exception) { null }
+    fun mapStatus(raw: String?): String = when(raw?.lowercase()) {
+        "in-progress" -> "IN_PROGRESS"
+        "completed" -> "COMPLETED"
+        "overdue" -> "OVERDUE"
+        "cancelled" -> "CANCELLED"
+        else -> "PENDING"
+    }
+    fun mapPriority(raw: String?): String = when(raw?.lowercase()) {
+        "urgent" -> "Critical"
+        "high" -> "High"
+        "medium" -> "Medium"
+        "low" -> "Low"
+        else -> "Medium"
+    }
+    val estHours = estimatedTime?.trim()?.lowercase()?.removeSuffix("h")?.toIntOrNull()
+    val created = parseDate(createdAt) ?: now
+    val updated = parseDate(updatedAt) ?: created
+    val due = parseDate(dueDate)
+    return TaskDto(
+        id = _id,
+        title = title,
+        description = description ?: "",
+        status = mapStatus(status),
+        priority = mapPriority(priority),
+        assignedTo = assignedTo?.id,
+        assignedBy = assignedBy,
+        createdBy = currentUserId ?: (assignedBy ?: "unknown"),
+        dueDate = due,
+        createdAt = created,
+        updatedAt = updated,
+        completedAt = null,
+        tags = emptyList(),
+        attachments = emptyList(),
+        estimatedHours = estHours,
+        actualHours = null,
+        category = category,
+        location = null,
+        reminderDate = null,
+        isRecurring = false,
+        recurringPattern = null
+    )
+}
+

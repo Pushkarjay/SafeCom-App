@@ -11,6 +11,7 @@ import com.safecom.taskmanagement.data.local.preferences.UserPreferences
 import com.safecom.taskmanagement.data.remote.api.AuthApiService
 import com.safecom.taskmanagement.data.remote.api.MessageApiService
 import com.safecom.taskmanagement.data.remote.api.TaskApiService
+import com.safecom.taskmanagement.data.remote.api.CompatTaskApiService
 import com.safecom.taskmanagement.data.remote.api.UserApiService
 import com.safecom.taskmanagement.data.remote.interceptor.AuthInterceptor
 import com.safecom.taskmanagement.data.repository.AuthRepository
@@ -100,6 +101,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCompatTaskApiService(retrofit: Retrofit): CompatTaskApiService {
+        return retrofit.create(CompatTaskApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
@@ -120,9 +127,11 @@ object AppModule {
     @Singleton
     fun provideTaskRepository(
         taskApiService: TaskApiService,
-        taskDao: TaskDao
+        compatTaskApiService: CompatTaskApiService,
+        taskDao: TaskDao,
+        userPreferences: UserPreferences
     ): TaskRepository {
-        return TaskRepository(taskApiService, taskDao)
+        return TaskRepository(taskApiService, compatTaskApiService, taskDao, userPreferences)
     }
 
     @Provides
@@ -153,4 +162,125 @@ object AppModule {
     ): AuthRepository {
         return AuthRepository(authApiService, userPreferences, userRepository)
     }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object UseCaseModule {
+
+    @Provides
+    fun provideGetTasksUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetTasksUseCase(taskRepository)
+
+    @Provides
+    fun provideGetTaskByIdUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetTaskByIdUseCase(taskRepository)
+
+    @Provides
+    fun provideCreateTaskUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.CreateTaskUseCase(taskRepository)
+
+    @Provides
+    fun provideUpdateTaskUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.UpdateTaskUseCase(taskRepository)
+
+    @Provides
+    fun provideUpdateTaskStatusUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.UpdateTaskStatusUseCase(taskRepository)
+
+    @Provides
+    fun provideDeleteTaskUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.DeleteTaskUseCase(taskRepository)
+
+    @Provides
+    fun provideSearchTasksUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.SearchTasksUseCase(taskRepository)
+
+    @Provides
+    fun provideGetTasksByStatusUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetTasksByStatusUseCase(taskRepository)
+
+    @Provides
+    fun provideGetUserTasksUseCase(taskRepository: TaskRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetUserTasksUseCase(taskRepository)
+
+    @Provides
+    fun provideGetConversationsUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetConversationsUseCase(messageRepository)
+
+    @Provides
+    fun provideGetMessagesUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetMessagesUseCase(messageRepository)
+
+    @Provides
+    fun provideSendMessageUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.SendMessageUseCase(messageRepository)
+
+    @Provides
+    fun provideMarkMessageAsReadUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.MarkMessageAsReadUseCase(messageRepository)
+
+    @Provides
+    fun provideSearchMessagesUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.SearchMessagesUseCase(messageRepository)
+
+    @Provides
+    fun provideGetUnreadMessageCountUseCase(messageRepository: MessageRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetUnreadMessageCountUseCase(messageRepository)
+
+    @Provides
+    fun provideGetUserProfileUseCase(userRepository: UserRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetUserProfileUseCase(userRepository)
+
+    @Provides
+    fun provideUpdateUserProfileUseCase(userRepository: UserRepository) = 
+        com.safecom.taskmanagement.domain.usecase.UpdateUserProfileUseCase(userRepository)
+
+    @Provides
+    fun provideUpdateUserSettingsUseCase(userRepository: UserRepository) = 
+        com.safecom.taskmanagement.domain.usecase.UpdateUserSettingsUseCase(userRepository)
+
+    @Provides
+    fun provideGetUserTaskStatisticsUseCase(userRepository: UserRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetUserTaskStatisticsUseCase(userRepository)
+
+    @Provides
+    fun provideLoginUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.LoginUseCase(authRepository)
+
+    @Provides
+    fun provideLoginWithBiometricUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.LoginWithBiometricUseCase(authRepository)
+
+    @Provides
+    fun provideRegisterUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.RegisterUseCase(authRepository)
+
+    @Provides
+    fun provideLogoutUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.LogoutUseCase(authRepository)
+
+    @Provides
+    fun provideForgotPasswordUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.ForgotPasswordUseCase(authRepository)
+
+    @Provides
+    fun provideResetPasswordUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.ResetPasswordUseCase(authRepository)
+
+    @Provides
+    fun provideChangePasswordUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.ChangePasswordUseCase(authRepository)
+
+    @Provides
+    fun provideRefreshTokenUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.RefreshTokenUseCase(authRepository)
+
+    @Provides
+    fun provideIsLoggedInUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.IsLoggedInUseCase(authRepository)
+
+    @Provides
+    fun provideGetCurrentAuthTokenUseCase(authRepository: AuthRepository) = 
+        com.safecom.taskmanagement.domain.usecase.GetCurrentAuthTokenUseCase(authRepository)
 }

@@ -26,6 +26,8 @@ class AuthRepository @Inject constructor(
             
             // Cache user data
             val user = loginResponse.user.toDomainModel()
+            // Persist role if available
+            user.role?.let { userPreferences.setUserRole(it) }
             
             Result.success(user)
         } catch (e: Exception) {
@@ -68,6 +70,7 @@ class AuthRepository @Inject constructor(
             userPreferences.setCurrentUserId(registerResponse.user.id)
             
             val user = registerResponse.user.toDomainModel()
+            user.role?.let { userPreferences.setUserRole(it) }
             
             Result.success(user)
         } catch (e: Exception) {
