@@ -162,6 +162,12 @@ const taskSchema = new mongoose.Schema({
       type: String,
       enum: ['text', 'number', 'date', 'boolean', 'select']
     }
+  }],
+  // Time tracking logs (compat for web frontend employee timer)
+  timeLogs: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    seconds: { type: Number, required: true, min: 1 },
+    loggedAt: { type: Date, default: Date.now }
   }]
 }, {
   timestamps: true,

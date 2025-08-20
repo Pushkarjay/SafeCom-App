@@ -1,12 +1,22 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
+  // Basic identity
   name: {
     type: String,
     required: [true, 'Name is required'],
     trim: true,
     maxlength: [100, 'Name cannot exceed 100 characters']
+  },
+  // Optional username (frontend may reference username). Keep unique if provided.
+  username: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    unique: false, // don't enforce uniqueness until we are certain all data populated
+    maxlength: [50, 'Username cannot exceed 50 characters']
   },
   email: {
     type: String,
@@ -37,14 +47,22 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^\+?[\d\s-()]+$/, 'Please enter a valid phone number']
   },
+  // Avatar / profile image (frontend may refer to avatar)
   profileImageUrl: {
     type: String,
     default: null
   },
+  avatar: { // keep separate field for clarity / backward compat
+    type: String,
+    default: null
+  },
+  // Single legacy token
   fcmToken: {
     type: String,
     default: null
   },
+  // New plural tokens array (as controllers expect fcmTokens)
+  fcmTokens: [{ type: String }],
   isActive: {
     type: Boolean,
     default: true
@@ -69,6 +87,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
+  // User interface / notification settings (existing)
   settings: {
     isDarkModeEnabled: {
       type: Boolean,
@@ -106,6 +125,17 @@ const userSchema = new mongoose.Schema({
       match: [/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format']
     }
   },
+  // Optional bio / profile info used by updateProfile
+  bio: {
+    type: String,
+    trim: true,
+    maxlength: [500, 'Bio cannot exceed 500 characters']
+  },
+  // Preferences object (separate from settings for future flexibility)
+  preferences: {
+    type: Object,
+    default: {}
+  },
   refreshTokens: [{
     token: String,
     createdAt: {
@@ -129,6 +159,23 @@ userSchema.index({ isActive: 1 });
 // Virtual for user's full name
 userSchema.virtual('fullName').get(function() {
   return this.name;
+});
+
+// Provide backward compatible virtual for avatar if only profileImageUrl is set
+userSchema.virtual('resolvedAvatar').get(function() {
+  return this.avatar || this.profileImageUrl || null;
+});
+
+// Virtuals for tasks (controllers attempt to populate createdTasks / assignedTasks)
+userSchema.virtual('createdTasks', {
+  ref: 'Task',
+  localField: '_id',
+  foreignField: 'createdBy'
+});
+userSchema.virtual('assignedTasks', {
+  ref: 'Task',
+  localField: '_id',
+  foreignField: 'assignedTo'
 });
 
 // Virtual to get task statistics
@@ -158,6 +205,16 @@ userSchema.pre('save', async function(next) {
 userSchema.methods.comparePassword = async function(candidatePassword) {
   if (!this.password) return false;
   return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Instance method to generate JWT auth token (controllers expect generateAuthToken)
+userSchema.methods.generateAuthToken = function() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET not configured');
+  }
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d'
+  });
 };
 
 // Instance method to generate password reset token

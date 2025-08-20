@@ -17,34 +17,62 @@ class AuthController {
           errors: errors.array()
         });
       }
+      // Accept both original payload (firstName/lastName/role) and frontend simplified (name, userType)
+      const {
+        email,
+        password,
+        firstName,
+        lastName,
+        role,
+        phoneNumber,
+        fcmToken,
+        name,
+        userType
+      } = req.body;
 
-      const { username, email, password, fullName, phoneNumber, fcmToken } = req.body;
+      // Derive names if only composite name provided
+      let resolvedFirst = firstName;
+      let resolvedLast = lastName;
+      if ((!resolvedFirst || !resolvedLast) && name) {
+        const parts = name.trim().split(/\s+/);
+        resolvedFirst = resolvedFirst || parts[0];
+        resolvedLast = resolvedLast || (parts.slice(1).join(' ') || parts[0]);
+      }
+
+      // Map userType (frontend) to backend role if role not explicitly provided
+      const mapRole = (r) => {
+        if (!r) return 'Employee';
+        switch (r.toLowerCase()) {
+          case 'admin': return 'Admin';
+          case 'manager': return 'Manager';
+          case 'employee':
+          case 'user':
+          case 'customer': return 'Employee';
+          default: return 'Employee';
+        }
+      };
+      const resolvedRole = role || mapRole(userType);
 
       // Check if user already exists
       const existingUser = await User.findOne({
-        $or: [
-          { email: email.toLowerCase() },
-          { username: username.toLowerCase() }
-        ]
+        email: email.toLowerCase()
       });
 
       if (existingUser) {
         return res.status(409).json({
           success: false,
-          message: existingUser.email === email.toLowerCase() 
-            ? 'Email already registered' 
-            : 'Username already taken'
+          message: 'Email already registered'
         });
       }
 
       // Create new user
       const user = new User({
-        username: username.toLowerCase(),
+        name: `${resolvedFirst} ${resolvedLast}`.trim(),
         email: email.toLowerCase(),
         password,
-        fullName,
+        role: resolvedRole || 'Employee',
         phoneNumber,
-        fcmTokens: fcmToken ? [fcmToken] : []
+        fcmToken: fcmToken || null
       });
 
       await user.save();
@@ -56,13 +84,17 @@ class AuthController {
       const userResponse = user.toObject();
       delete userResponse.password;
 
+      // Provide both original nested shape and flattened for web frontend compatibility
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
         data: {
           user: userResponse,
           token
-        }
+        },
+        // Flat fields (new)
+        user: userResponse,
+        token
       });
 
     } catch (error) {
@@ -86,8 +118,11 @@ class AuthController {
           errors: errors.array()
         });
       }
-
-      const { login, password, fcmToken } = req.body;
+      // Accept both { login, password } and { email, password, userType }
+      let { login, password, fcmToken, email, userType } = req.body;
+      if (!login && email) {
+        login = email; // unify
+      }
 
       // Find user by email or username
       const user = await User.findOne({
@@ -143,7 +178,12 @@ class AuthController {
         data: {
           user: userResponse,
           token
-        }
+        },
+        // Flat compatibility fields expected by current web frontend
+        user: userResponse,
+        token,
+        role: userResponse.role ? userResponse.role.toLowerCase() : undefined,
+        userType: userType || (userResponse.role ? userResponse.role.toLowerCase() : undefined)
       });
 
     } catch (error) {

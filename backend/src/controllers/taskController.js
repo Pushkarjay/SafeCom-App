@@ -2,6 +2,7 @@ const Task = require('../models/Task');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
 const admin = require('../config/firebase');
+const mongoose = require('mongoose');
 
 class TaskController {
   // Create new task

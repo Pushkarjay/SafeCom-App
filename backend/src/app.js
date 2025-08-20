@@ -13,6 +13,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 const messageRoutes = require('./routes/messages');
+const compatRoutes = require('./routes/compat');
 
 // Import middleware
 const { auth } = require('./middleware/auth');
@@ -47,6 +48,12 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan('combined'));
 app.use(limiter);
+
+// Attach io instance to each request so controllers can emit events
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 // CORS configuration
 const corsOptions = {
@@ -133,6 +140,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', auth, taskRoutes);
 app.use('/api/messages', auth, messageRoutes);
+// Web frontend compatibility routes (role-specific simplified endpoints)
+app.use('/api', compatRoutes);
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {

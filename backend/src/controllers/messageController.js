@@ -2,6 +2,7 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
 const admin = require('../config/firebase');
+const mongoose = require('mongoose');
 
 class MessageController {
   // Send a new message
