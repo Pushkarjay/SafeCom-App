@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
 const messageRoutes = require('./routes/messages');
 const compatRoutes = require('./routes/compat');
+const mobileCompatRoutes = require('./routes/mobileCompat');
 
 // Import middleware
 const { auth } = require('./middleware/auth');
@@ -142,6 +143,8 @@ app.use('/api/tasks', auth, taskRoutes);
 app.use('/api/messages', auth, messageRoutes);
 // Web frontend compatibility routes (role-specific simplified endpoints)
 app.use('/api', compatRoutes);
+// Mobile compatibility routes (Option A dedicated mobile shape)
+app.use('/api/mobile', mobileCompatRoutes);
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
