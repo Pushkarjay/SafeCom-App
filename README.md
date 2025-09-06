@@ -1,6 +1,6 @@
 # SafeCom Task Management App
 
-A comprehensive task management application built with Android (Kotlin) frontend and Node.js backend, featuring real-time messaging, push notifications, and collaborative task management.
+A comprehensive task management application built with Flutter frontend and Node.js backend, featuring real-time messaging, push notifications, and collaborative task management.
 
 **Developed by:** [Pushkarjay Ajay](mailto:pushkarjay.ajay1@gmail.com)  
 **Organization:** SafeCom  
@@ -44,18 +44,26 @@ A comprehensive task management application built with Android (Kotlin) frontend
 
 ## 🏗️ Architecture
 
-### Frontend (Android)
-- **Language**: Kotlin
-- **Architecture**: MVVM with Clean Architecture
-- **UI**: Material Design 3, Jetpack Compose
-- **Database**: Room (SQLite)
-- **Networking**: Retrofit2 + OkHttp
-- **Dependency Injection**: Hilt
-- **Navigation**: Navigation Component
-- **Real-time**: Socket.IO client
+### Frontend (Flutter)
+- **Language**: Dart
+- **Framework**: Flutter
+- **Architecture**: Provider pattern with Clean Architecture
+- **UI**: Material Design
+- **State Management**: Provider
+- **Authentication**: Firebase Auth + Google Sign-In
+- **HTTP Client**: http package
+- **Navigation**: GoRouter
+- **Real-time**: HTTP polling
 - **Push Notifications**: Firebase FCM
-- **Image Loading**: Glide
-- **Authentication**: Firebase Auth + JWT
+
+### Web Frontend
+- **Languages**: HTML5, CSS3, JavaScript (ES6+)
+- **Framework**: Vanilla JavaScript
+- **UI**: Material Design principles
+- **Authentication**: Firebase Auth Web SDK
+- **HTTP Client**: Fetch API
+- **Real-time**: WebSocket/Socket.IO
+- **Responsive Design**: CSS Grid and Flexbox
 
 ### Backend (Node.js)
 - **Runtime**: Node.js
@@ -72,38 +80,39 @@ A comprehensive task management application built with Android (Kotlin) frontend
 
 ```
 SafeCom-App/
-├── android/                 # Android application
-│   ├── app/
-│   │   ├── src/main/
-│   │   │   ├── java/com/safecom/taskmanagement/
-│   │   │   │   ├── data/        # Data layer (repositories, API, database)
-│   │   │   │   ├── domain/      # Domain layer (use cases, models)
-│   │   │   │   ├── presentation/ # UI layer (activities, fragments, viewmodels)
-│   │   │   │   └── di/          # Dependency injection
-│   │   │   ├── res/             # Resources (layouts, drawables, strings)
-│   │   │   └── AndroidManifest.xml
-│   │   ├── build.gradle         # App-level Gradle configuration
-│   │   └── google-services.json # Firebase configuration
-│   ├── build.gradle             # Project-level Gradle configuration
-│   └── buildozer.spec          # Buildozer configuration for builds
-├── backend/                 # Node.js backend API
+├── flutter_app/               # Flutter mobile application
+│   ├── lib/
+│   │   ├── models/            # Data models
+│   │   ├── screens/           # UI screens
+│   │   ├── services/          # Business logic
+│   │   ├── utils/             # Utilities and routing
+│   │   └── main.dart          # App entry point
+│   ├── pubspec.yaml           # Flutter dependencies
+│   └── README.md
+├── SafeCom/                   # Web frontend (HTML/CSS/JS)
+│   ├── css/                   # Stylesheets
+│   ├── js/                    # JavaScript files
+│   ├── img/                   # Images and assets
+│   ├── index.html             # Landing page
+│   ├── login.html             # Login page
+│   ├── signup.html            # Registration page
+│   ├── admin-dashboard.html   # Admin dashboard
+│   ├── customer-dashboard.html # Customer dashboard
+│   ├── employee-dashboard.html # Employee dashboard
+│   └── README.md
+├── backend/                   # Node.js backend
 │   ├── src/
-│   │   ├── controllers/         # Route controllers
-│   │   ├── models/             # Database models
-│   │   ├── routes/             # API routes
-│   │   ├── middleware/         # Custom middleware
-│   │   ├── config/             # Configuration files
-│   │   └── app.js              # Main application file
-│   ├── uploads/                # File upload directory
+│   │   ├── controllers/       # API controllers
+│   │   ├── middleware/        # Express middleware
+│   │   ├── models/            # Database models
+│   │   ├── routes/            # API routes
+│   │   └── app.js             # Main application file
+│   ├── uploads/               # File upload directory
 │   ├── package.json
 │   ├── .env.example
 │   └── README.md
-├── assets/                  # Shared assets
-│   ├── icon.png
-│   └── presplash.png
-├── main.py                  # Kivy main file (if using Kivy)
-├── safecom.db              # Local SQLite database
-└── README.md               # This file
+├── docs/                      # Documentation
+└── README.md                  # This file
 ```
 
 ## 📚 Documentation
@@ -139,11 +148,95 @@ SafeCom-App/
 
 #### System Requirements
 - **Operating System**: Windows 10/11, macOS 10.15+, or Ubuntu 18.04+
-- **RAM**: Minimum 8GB (16GB recommended for Android development)
+- **RAM**: Minimum 8GB (16GB recommended for Flutter development)
 - **Storage**: At least 10GB free space
 - **Internet**: Stable connection for downloading dependencies
 
 #### Required Software
+- **Flutter SDK** (3.0.0 or higher) - [Install Flutter](https://flutter.dev/docs/get-started/install)
+- **Dart SDK** (included with Flutter)
+- **Node.js** (18.0.0 or higher) - [Download](https://nodejs.org/)
+- **Git** - [Download](https://git-scm.com/)
+- **VS Code** or **Android Studio** for development
+- **Android Studio** (for Android emulator) - [Download](https://developer.android.com/studio)
+
+### 🔧 Installation Steps
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/Pushkarjay/SafeCom-App.git
+cd SafeCom-App
+```
+
+#### 2. Backend Setup
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your configuration
+npm start
+```
+
+#### 3. Flutter App Setup
+```bash
+cd flutter_app
+flutter pub get
+flutter run
+```
+
+#### 4. Web Frontend Setup
+The web frontend is located in the `SafeCom/` directory. You can serve it using any web server:
+
+```bash
+# Using Python (if installed)
+cd SafeCom
+python -m http.server 8080
+
+# Using Node.js serve package
+npx serve SafeCom
+
+# Or simply open index.html in a web browser
+```
+
+Access the web application at `http://localhost:8080`
+
+### 📱 Project Structure
+```
+SafeCom-App/
+├── flutter_app/               # Flutter mobile application
+│   ├── lib/
+│   │   ├── models/            # Data models
+│   │   ├── screens/           # UI screens
+│   │   ├── services/          # Business logic
+│   │   ├── utils/             # Utilities and routing
+│   │   └── main.dart          # App entry point
+│   ├── pubspec.yaml           # Flutter dependencies
+│   └── README.md
+├── SafeCom/                   # Web frontend (HTML/CSS/JS)
+│   ├── css/                   # Stylesheets
+│   ├── js/                    # JavaScript files
+│   ├── img/                   # Images and assets
+│   ├── index.html             # Landing page
+│   ├── login.html             # Login page
+│   ├── signup.html            # Registration page
+│   ├── admin-dashboard.html   # Admin dashboard
+│   ├── customer-dashboard.html # Customer dashboard
+│   ├── employee-dashboard.html # Employee dashboard
+│   └── README.md
+├── backend/                   # Node.js backend
+│   ├── src/
+│   │   ├── controllers/       # API controllers
+│   │   ├── middleware/        # Express middleware
+│   │   ├── models/            # Database models
+│   │   ├── routes/            # API routes
+│   │   └── app.js             # Main application file
+│   ├── uploads/               # File upload directory
+│   ├── package.json
+│   ├── .env.example
+│   └── README.md
+├── docs/                      # Documentation
+└── README.md                  # This file
+```
 
 1. **Java Development Kit (JDK)**
    - **Version**: JDK 11 or higher (JDK 17 recommended)
@@ -240,49 +333,82 @@ npm start
 # Open browser: http://localhost:3000
 ```
 
-### 📱 3. Android Setup
+### 📱 3. Flutter App Setup
 
-#### Step 1: Prepare Development Environment
-1. **Open Android Studio**
-2. **SDK Manager**: Tools → SDK Manager
-   - Install Android SDK Platform 33 & 34
-   - Install Android SDK Build-Tools 33.0.0+
-   - Install Android Emulator (if testing without physical device)
-
-#### Step 2: Import Project
+#### Step 1: Navigate to Flutter Directory
 ```bash
-# Open Android Studio
-# File → Open → Navigate to SafeCom-App/android folder
-# Select the 'android' folder and click OK
+cd flutter_app
 ```
 
-#### Step 3: Gradle Sync
-1. **Auto-sync**: Android Studio should automatically sync Gradle files
-2. **Manual sync**: If not, click "Sync Now" when prompted
-3. **Troubleshooting**: If sync fails, check:
-   - JDK version (must be JDK 11+)
-   - Internet connection
-   - Gradle wrapper permissions
-
-#### Step 4: Build Project
+#### Step 2: Install Dependencies
 ```bash
-# Command line build (from android directory)
-cd android
+# Get all Flutter packages
+flutter pub get
 
-# Debug build
-./gradlew assembleDebug      # On macOS/Linux
-.\gradlew.bat assembleDebug  # On Windows
-
-# Release build
-./gradlew assembleRelease      # On macOS/Linux
-.\gradlew.bat assembleRelease  # On Windows
+# Verify Flutter installation
+flutter doctor
 ```
 
-#### Step 5: Run Application
-1. **Physical Device**:
-   - Enable Developer Options and USB Debugging
-   - Connect device via USB
-   - Click "Run" in Android Studio
+#### Step 3: Configure Firebase
+1. **Create Firebase Project**: Go to [Firebase Console](https://console.firebase.google.com/)
+2. **Enable Authentication**: Firebase Console → Authentication → Sign-in methods
+3. **Add Android App**: Firebase Console → Project Settings → Add App
+4. **Download google-services.json**: Place in `flutter_app/android/app/`
+5. **Add iOS App** (if targeting iOS): Download GoogleService-Info.plist
+
+#### Step 4: Run the App
+```bash
+# List available devices
+flutter devices
+
+# Run on connected device/emulator
+flutter run
+
+# Run in debug mode with hot reload
+flutter run --debug
+
+# Build for release
+flutter build apk
+```
+
+### 🌐 4. Web Frontend Setup
+
+#### Step 1: Navigate to Web Directory
+```bash
+cd SafeCom
+```
+
+#### Step 2: Configure Firebase Web
+1. **Firebase Console**: Go to [Firebase Console](https://console.firebase.google.com/)
+2. **Add Web App**: Project Settings → Add App → Web
+3. **Copy Config**: Copy the Firebase configuration object
+4. **Update Config**: Edit `js/config.js` with your Firebase config
+
+#### Step 3: Serve the Web App
+```bash
+# Option 1: Using Python
+python -m http.server 8080
+
+# Option 2: Using Node.js serve
+npx serve . -p 8080
+
+# Option 3: Using PHP (if installed)
+php -S localhost:8080
+
+# Option 4: Simply open index.html in your browser
+# Right-click index.html → Open with → Your preferred browser
+```
+
+#### Step 4: Access the Application
+- **Local URL**: `http://localhost:8080`
+- **Files to check**: 
+  - `index.html` - Landing page
+  - `login.html` - User authentication
+  - `admin-dashboard.html` - Admin interface
+  - `customer-dashboard.html` - Customer interface
+  - `employee-dashboard.html` - Employee interface
+
+### 📱 5. Mobile App Testing
 
 2. **Emulator**:
    - Create AVD (Android Virtual Device) in Android Studio
