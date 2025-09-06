@@ -1,0 +1,3 @@
+[submodule "SafeCom-Frontend"]
+	path = SafeCom-Frontend
+	url = https://github.com/Pushkarjay/SafeCom-Frontend.git

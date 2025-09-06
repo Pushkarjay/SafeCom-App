@@ -2,7 +2,19 @@
 
 A comprehensive task management application built with Flutter frontend and Node.js backend, featuring real-time messaging, push notifications, and collaborative task management.
 
-**Developed by:** [Pushkarjay Ajay](mailto:pushkarjay.ajay1@gmail.com)  
+**Developed by:** [Push### Web Frontend
+The web frontend is located in the `SafeCom-Frontend/` directory (git submodule). You can serve it using any web server:
+
+```bash
+# Using Python (if installed)
+cd SafeCom-Frontend
+python -m http.server 8080
+
+# Using Node.js serve package
+npx serve SafeCom-Frontend
+
+# Or simply open index.html in a web browser
+```mailto:pushkarjay.ajay1@gmail.com)  
 **Organization:** SafeCom  
 **Repository:** https://github.com/Pushkarjay/SafeCom-App  
 
@@ -142,7 +154,59 @@ SafeCom-App/
 - [Common Issues & Solutions](TROUBLESHOOTING.md)
 - [Contributing Guidelines](#🤝-contributing)
 
-## 🚀 Quick Start
+## � Development Workflow
+
+### Git Submodule Setup
+
+This project uses **git submodules** to manage the web frontend separately. The `SafeCom-Frontend/` directory is linked to the [SafeCom-Frontend repository](https://github.com/Pushkarjay/SafeCom-Frontend).
+
+#### Working with Frontend Changes
+When you make changes to files in `SafeCom-Frontend/`, those changes should be committed to the SafeCom-Frontend repository:
+
+```bash
+# Navigate to the frontend submodule
+cd SafeCom-Frontend
+
+# Make your changes to HTML/CSS/JS files
+# ... edit files ...
+
+# Stage and commit changes to the SafeCom-Frontend repo
+git add .
+git commit -m "Your frontend changes"
+git push origin main
+
+# Go back to main project
+cd ..
+
+# Update the submodule reference in SafeCom-App
+git add SafeCom-Frontend
+git commit -m "Update SafeCom-Frontend submodule"
+git push origin main
+```
+
+#### Working with Other Changes
+Changes to `flutter_app/`, `backend/`, `docs/`, or other files are committed to this SafeCom-App repository:
+
+```bash
+# Make changes to Flutter app, backend, docs, etc.
+# ... edit files ...
+
+# Commit to SafeCom-App repo
+git add .
+git commit -m "Your app/backend changes"
+git push origin main
+```
+
+#### Initial Setup for New Developers
+```bash
+# Clone with submodules
+git clone --recursive https://github.com/Pushkarjay/SafeCom-App.git
+
+# Or if already cloned, initialize submodules
+git submodule update --init --recursive
+```
+
+## �🚀 Quick Start
 
 ### 📋 Prerequisites
 
@@ -375,7 +439,7 @@ flutter build apk
 
 #### Step 1: Navigate to Web Directory
 ```bash
-cd SafeCom
+cd SafeCom-Frontend
 ```
 
 #### Step 2: Configure Firebase Web
