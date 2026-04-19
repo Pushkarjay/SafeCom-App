@@ -9,16 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Demo credentials for testing - replace with your actual test accounts
     const credentials = {
-      admin: { email: 'admin@safecom.com', password: '' },
-      customer: { email: 'customer@safecom.com', password: '' },
-      employee: { email: 'employee@safecom.com', password: '' }
+      admin: { email: 'admin@safecom.test', password: 'Demo@1234' },
+      customer: { email: 'manager@safecom.test', password: 'Demo@1234' },
+      employee: { email: 'employee@safecom.test', password: 'Demo@1234' }
     };
     
     const cred = credentials[userType];
     if (cred && emailInput && passwordInput) {
       emailInput.value = cred.email;
-      // Password intentionally left empty for security - enter manually
-      passwordInput.placeholder = `Enter ${userType} password`;
+      passwordInput.value = cred.password;
+      passwordInput.placeholder = `Password for ${userType}`;
     }
   };
 
