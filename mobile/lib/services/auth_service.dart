@@ -7,7 +7,7 @@ import 'dart:convert';
 
 class AuthService with ChangeNotifier {
   late final FirebaseAuth _auth;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late final GoogleSignIn _googleSignIn;
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -19,9 +19,10 @@ class AuthService with ChangeNotifier {
   User? get user => _user;
 
   AuthService() {
-    // Initialize Firebase only on mobile/iOS platforms
+    // Initialize Firebase and GoogleSignIn only on mobile/iOS platforms
     if (!kIsWeb) {
       _auth = FirebaseAuth.instance;
+      _googleSignIn = GoogleSignIn();
       _auth.authStateChanges().listen((User? user) {
         _user = user;
         notifyListeners();
@@ -29,7 +30,7 @@ class AuthService with ChangeNotifier {
     } else {
       // Web platform - use demo mode
       _isWebDemo = true;
-      debugPrint('🌐 Web Platform Detected - Using Demo Mode');
+      debugPrint('🌐 Web Platform Detected - Using Demo Mode (Firebase & GoogleSignIn skipped)');
     }
   }
 
