@@ -109,6 +109,10 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# Exception: Keep Flutter's lib directory
+!mobile/lib/
+!mobile/lib/**
+
 # Buildozer files
 buildozer.spec
 .buildozer/
