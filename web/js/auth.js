@@ -87,6 +87,39 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.disabled = true
 
       try {
+        // Check if using demo credentials
+        const demoCredentials = {
+          'admin@safecom.test': { password: 'Demo@1234', role: 'admin' },
+          'manager@safecom.test': { password: 'Demo@1234', role: 'customer' },
+          'employee@safecom.test': { password: 'Demo@1234', role: 'employee' }
+        };
+
+        // If demo credentials match, use demo mode immediately
+        if (demoCredentials[email] && demoCredentials[email].password === password) {
+          const demoUserData = {
+            name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1) + ' User',
+            email: email,
+            role: demoCredentials[email].role,
+            id: 'demo-user-' + email,
+            isDemoMode: true
+          };
+          
+          // Store demo data
+          localStorage.setItem("safecom-token", "demo-token-" + Date.now())
+          localStorage.setItem("safecom-user", JSON.stringify(demoUserData))
+          
+          // Redirect to appropriate dashboard
+          const dashboards = {
+            admin: 'admin-dashboard.html',
+            customer: 'customer-dashboard.html', 
+            employee: 'employee-dashboard.html'
+          };
+          
+          window.location.href = dashboards[demoCredentials[email].role] || 'dashboard.html';
+          return;
+        }
+
+        // Try to login via backend
         const result = await SafeComAPI.login({ email, password, userType });
         if(result.ok){
           const dashboards = { admin:'admin-dashboard.html', customer:'customer-dashboard.html', employee:'employee-dashboard.html' };
@@ -100,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Check if it's a network connectivity issue
         if (error.name === 'TypeError' || error.message.includes('fetch')) {
           // Backend is likely down - offer demo mode
-          const useDemo = confirm('Backend service is currently unavailable. Would you like to continue in demo mode?')
+          const useDemo = confirm('Backend service is currently unavailable. Would you like to continue in demo mode with the entered credentials?')
           
           if (useDemo) {
             // Create demo user data
