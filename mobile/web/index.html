@@ -29,8 +29,31 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>flutter_app</title>
+  <title>SafeCom - Task Management</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- Firebase Configuration -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js"></script>
+  
+  <script>
+    // Firebase configuration for SafeCom Task Management
+    const firebaseConfig = {
+      apiKey: "AIzaSyAG-WeeS4MgS3nhLBjhy77Z2DtVRxpQOY4",
+      authDomain: "safecom-task-management.firebaseapp.com",
+      projectId: "safecom-task-management",
+      storageBucket: "safecom-task-management.firebasestorage.app",
+      messagingSenderId: "344799045102",
+      appId: "1:344799045102:web:e3499d93a9ce493686daff",
+      measurementId: "G-THK8WQ054W"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
