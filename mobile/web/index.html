@@ -41,18 +41,20 @@
   
   <script>
     // Firebase configuration for SafeCom Task Management
+    // NOTE: Sensitive API keys are stored in environment variables for security
+    // See web/.env.example for configuration template
     const firebaseConfig = {
-      apiKey: "AIzaSyAG-WeeS4MgS3nhLBjhy77Z2DtVRxpQOY4",
+      apiKey: "YOUR_FIREBASE_API_KEY_HERE",
       authDomain: "safecom-task-management.firebaseapp.com",
       projectId: "safecom-task-management",
       storageBucket: "safecom-task-management.firebasestorage.app",
       messagingSenderId: "344799045102",
       appId: "1:344799045102:web:e3499d93a9ce493686daff",
-      measurementId: "G-THK8WQ054W"
+      measurementId: "YOUR_MEASUREMENT_ID_HERE"
     };
     
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase - only if properly configured
+    // firebase.initializeApp(firebaseConfig);
   </script>
 </head>
 <body>

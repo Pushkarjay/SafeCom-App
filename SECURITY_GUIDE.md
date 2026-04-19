@@ -37,9 +37,11 @@ REFRESH_TOKEN_SECRET=your-refresh-token-secret-change-this
 REFRESH_TOKEN_EXPIRES_IN=7d
 
 # Firebase Configuration
+# NOTE: Sensitive API keys and credentials must be kept in environment variables
+# Do NOT commit actual keys to the repository
 FIREBASE_PROJECT_ID=safecom-task-management
 FIREBASE_PROJECT_NUMBER=344799045102
-FIREBASE_WEB_API_KEY=AIzaSyCxoXVuxbQxiNMkJnXyF1PKpXmLoEo-cMU
+FIREBASE_WEB_API_KEY=YOUR_FIREBASE_WEB_API_KEY_HERE
 FIREBASE_PRIVATE_KEY_ID=your-private-key-id-from-service-account-json
 FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nyour-private-key-from-service-account-json\n-----END PRIVATE KEY-----\n"
 FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@safecom-task-management.iam.gserviceaccount.com

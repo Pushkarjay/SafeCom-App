@@ -166,7 +166,7 @@ api.safecom.com/clientc → Client C
 # Backend (.env)
 COMPANY_NAME=Manufacturing Corp
 API_BASE_URL=https://api.manufacturing-corp.com/api
-MONGODB_URI=mongodb+srv://mfg-admin:pass@mfg-cluster.mongodb.net/mfg-tasks
+MONGODB_URI=mongodb+srv://mfg-admin:YOUR_PASSWORD_HERE@mfg-cluster.mongodb.net/mfg-tasks
 ```
 
 ```properties
@@ -181,7 +181,7 @@ APP_NAME=Manufacturing Tasks
 # Backend (.env)
 COMPANY_NAME=Tech Startup
 API_BASE_URL=https://api.techstartup.io/api  
-MONGODB_URI=mongodb+srv://tech-admin:pass@tech-cluster.mongodb.net/tech-tasks
+MONGODB_URI=mongodb+srv://tech-admin:YOUR_PASSWORD_HERE@tech-cluster.mongodb.net/tech-tasks
 ```
 
 ```properties
@@ -212,7 +212,7 @@ DEBUG_MODE=true
 # Backend (.env)
 NODE_ENV=staging
 API_BASE_URL=https://staging-api.safecom.com/api
-MONGODB_URI=mongodb+srv://staging-admin:pass@staging-cluster.mongodb.net/safecom-staging
+MONGODB_URI=mongodb+srv://staging-admin:YOUR_PASSWORD_HERE@staging-cluster.mongodb.net/safecom-staging
 ```
 
 ```properties
@@ -226,7 +226,7 @@ DEBUG_MODE=true
 # Backend (.env)
 NODE_ENV=production
 API_BASE_URL=https://api.safecom.com/api
-MONGODB_URI=mongodb+srv://prod-admin:pass@prod-cluster.mongodb.net/safecom-prod
+MONGODB_URI=mongodb+srv://prod-admin:YOUR_PASSWORD_HERE@prod-cluster.mongodb.net/safecom-prod
 ```
 
 ```properties
