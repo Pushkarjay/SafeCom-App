@@ -45,27 +45,27 @@ pids
 *.seed
 *.pid.lock
 
-# Node.js Backend
-backend/node_modules/
-backend/.env
-backend/.env.local
-backend/.env.production
-backend/.env.development
-backend/.env.staging
-backend/.env.render
-backend/uploads/*
-!backend/uploads/.gitkeep
-backend/logs/
-backend/coverage/
-backend/dist/
-backend/build/
-backend/firebase-service-account.json
-backend/firebase-service-account-*.json
-backend/google-services.json
+# Node.js Backend (Server)
+server/node_modules/
+server/.env
+server/.env.local
+server/.env.production
+server/.env.development
+server/.env.staging
+server/.env.render
+server/uploads/*
+!server/uploads/.gitkeep
+server/logs/
+server/coverage/
+server/dist/
+server/build/
+server/firebase-service-account.json
+server/firebase-service-account-*.json
+server/google-services.json
 
 # Keep template files for multi-client setup
-!backend/.env.*.template
-!backend/.env.example
+!server/.env.*.template
+!server/.env.example
 
 # Android specific
 android/build/
