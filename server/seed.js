@@ -28,6 +28,14 @@ const seedDatabase = async () => {
         department: 'Management'
       },
       {
+        name: 'Demo Customer',
+        email: 'customer@safecom.test',
+        password: 'Demo@1234',
+        role: 'Employee',
+        phoneNumber: '+1111111111',
+        department: 'Customer Service'
+      },
+      {
         name: 'Demo Employee',
         email: 'employee@safecom.test',
         password: 'Demo@1234',
@@ -47,7 +55,7 @@ const seedDatabase = async () => {
 
     // Remove existing test users
     await User.deleteMany({
-      email: { $in: ['admin@safecom.test', 'employee@safecom.test', 'manager@safecom.test'] }
+      email: { $in: ['admin@safecom.test', 'customer@safecom.test', 'employee@safecom.test', 'manager@safecom.test'] }
     });
     console.log('🗑️  Cleared existing test users\n');
 
@@ -91,6 +99,10 @@ function displayTestCredentials() {
   console.log('  Email:    admin@safecom.test');
   console.log('  Password: Demo@1234');
   console.log('  Role:     Administrator\n');
+  console.log('Customer Account:');
+  console.log('  Email:    customer@safecom.test');
+  console.log('  Password: Demo@1234');
+  console.log('  Role:     Customer\n');
   console.log('Employee Account:');
   console.log('  Email:    employee@safecom.test');
   console.log('  Password: Demo@1234');

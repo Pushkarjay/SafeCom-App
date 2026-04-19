@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Demo credentials for testing - replace with your actual test accounts
     const credentials = {
       admin: { email: 'admin@safecom.test', password: 'Demo@1234' },
-      customer: { email: 'manager@safecom.test', password: 'Demo@1234' },
+      customer: { email: 'customer@safecom.test', password: 'Demo@1234' },
       employee: { email: 'employee@safecom.test', password: 'Demo@1234' }
     };
     
@@ -90,8 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Check if using demo credentials
         const demoCredentials = {
           'admin@safecom.test': { password: 'Demo@1234', role: 'admin' },
-          'manager@safecom.test': { password: 'Demo@1234', role: 'customer' },
-          'employee@safecom.test': { password: 'Demo@1234', role: 'employee' }
+          'customer@safecom.test': { password: 'Demo@1234', role: 'customer' },
+          'employee@safecom.test': { password: 'Demo@1234', role: 'employee' },
+          'manager@safecom.test': { password: 'Demo@1234', role: 'customer' }
         };
 
         // If demo credentials match, use demo mode immediately
