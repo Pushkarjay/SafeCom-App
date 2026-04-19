@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SafeCom</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo.svg" alt="SafeCom Logo" class="sidebar-logo">
+                <h2>SafeCom Admin</h2>
+            </div>
+            
+            <nav class="sidebar-nav" id="adminNav">
+                <!-- Navigation will be populated by JavaScript -->
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Admin Dashboard</h1>
+                </div>
+                
+                <div class="header-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-profile" id="userProfile">
+                        <img src="public/placeholder-user.jpg" alt="User Avatar" class="user-avatar">
+                        <span class="user-name">Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalTasks">0</h3>
+                            <p>Total Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pendingTasks">0</h3>
+                            <p>Pending Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="overdueTasks">0</h3>
+                            <p>Overdue Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completionRate">0%</h3>
+                            <p>Completion Rate</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="criticalTasks">0</h3>
+                            <p>Critical Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-hourglass-end"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="overdueRate">0%</h3>
+                            <p>Overdue Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section">
+                    <h2>Quick Actions</h2>
+                    <div class="action-cards">
+                        <div class="action-card" onclick="showCreateUserModal()">
+                            <i class="fas fa-user-plus"></i>
+                            <h3>Create User</h3>
+                            <p>Add new employees or customers</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='admin-tasks.html'">
+                            <i class="fas fa-plus-circle"></i>
+                            <h3>Create Task</h3>
+                            <p>Assign new tasks to team members</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='admin-analytics.html'">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>View Analytics</h3>
+                            <p>Check system performance metrics</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='admin-settings.html'">
+                            <i class="fas fa-cog"></i>
+                            <h3>System Settings</h3>
+                            <p>Configure system preferences</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="section">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list" id="recentActivity">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="section">
+                    <h2>System Status</h2>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>API Server</span>
+                            <span class="status-label online">Online</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>Database</span>
+                            <span class="status-label online">Connected</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>Notification Service</span>
+                            <span class="status-label online">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create User Modal -->
+    <div id="createUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New User</h3>
+                <button class="modal-close" onclick="hideCreateUserModal()">&times;</button>
+            </div>
+            <form id="createUserForm" class="modal-form">
+                <div class="form-group">
+                    <label for="userName">Full Name</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Role</label>
+                    <select id="userRole" required>
+                        <option value="">Select Role</option>
+                        <option value="employee">Employee</option>
+                        <option value="customer">Customer</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Temporary Password</label>
+                    <input type="password" id="userPassword" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="hideCreateUserModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/task-utils.js"></script>
+    <script src="js/role-manager.js"></script>
+    <script src="js/connection-status.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

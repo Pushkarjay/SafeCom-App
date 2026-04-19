@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - SafeCom</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo.svg" alt="SafeCom Logo" class="sidebar-logo">
+                <h2>SafeCom</h2>
+            </div>
+            
+            <nav class="sidebar-nav" id="employeeNav">
+                <!-- Navigation will be populated by JavaScript -->
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>My Workspace</h1>
+                </div>
+                
+                <div class="header-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-profile" id="userProfile">
+                        <img src="public/placeholder-user.jpg" alt="User Avatar" class="user-avatar">
+                        <span class="user-name">Employee</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="assignedTasks">0</h3>
+                            <p>Assigned Tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completedTasks">0</h3>
+                            <p>Completed Today</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pendingTasks">0</h3>
+                            <p>In Progress</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="urgentTasks">0</h3>
+                            <p>Urgent Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="analyticsCompletionRate">0%</h3>
+                            <p>Overall Completion</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Tasks -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>Today's Tasks</h2>
+                        <button class="btn-primary" onclick="refreshTasks()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <div class="task-list" id="todaysTasks">
+                        <!-- Tasks will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section">
+                    <h2>Quick Actions</h2>
+                    <div class="action-cards">
+                        <div class="action-card" onclick="window.location.href='employee-tasks.html'">
+                            <i class="fas fa-tasks"></i>
+                            <h3>All Tasks</h3>
+                            <p>View all assigned tasks</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='task-history.html'">
+                            <i class="fas fa-history"></i>
+                            <h3>Task History</h3>
+                            <p>View completed tasks</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='messages.html'">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Messages</h3>
+                            <p>Communicate with team</p>
+                        </div>
+                        
+                        <div class="action-card" onclick="window.location.href='employee-stats.html'">
+                            <i class="fas fa-chart-pie"></i>
+                            <h3>My Performance</h3>
+                            <p>View your statistics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Progress -->
+                <div class="section">
+                    <h2>Weekly Progress</h2>
+                    <div class="progress-container">
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>Tasks Completed</span>
+                                <span id="weeklyProgress">0/0</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="weeklyProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>On-Time Completion</span>
+                                <span id="onTimeRate">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill success" id="onTimeProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="section">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-timeline" id="recentActivity">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Time Tracker -->
+                <div class="section">
+                    <h2>Time Tracker</h2>
+                    <div class="time-tracker">
+                        <div class="current-task" id="currentTask">
+                            <div class="task-info">
+                                <h4>No active task</h4>
+                                <p>Select a task to start tracking time</p>
+                            </div>
+                            <div class="time-display">
+                                <span id="timeDisplay">00:00:00</span>
+                            </div>
+                        </div>
+                        <div class="time-actions">
+                            <button id="startBtn" class="btn-success" onclick="startTimer()">
+                                <i class="fas fa-play"></i>
+                                Start
+                            </button>
+                            <button id="pauseBtn" class="btn-warning" onclick="pauseTimer()" style="display: none;">
+                                <i class="fas fa-pause"></i>
+                                Pause
+                            </button>
+                            <button id="stopBtn" class="btn-danger" onclick="stopTimer()" style="display: none;">
+                                <i class="fas fa-stop"></i>
+                                Stop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Task Update Modal -->
+    <div id="taskUpdateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Update Task Status</h3>
+                <button class="modal-close" onclick="hideTaskUpdateModal()">&times;</button>
+            </div>
+            <form id="taskUpdateForm" class="modal-form">
+                <div class="form-group">
+                    <label for="taskStatus">Status</label>
+                    <select id="taskStatus" required>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="progressNotes">Progress Notes</label>
+                    <textarea id="progressNotes" rows="4" placeholder="Add notes about your progress..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="timeSpent">Time Spent (hours)</label>
+                    <input type="number" id="timeSpent" step="0.25" min="0">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="hideTaskUpdateModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/task-utils.js"></script>
+    <script src="js/role-manager.js"></script>
+    <script src="js/connection-status.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/employee-dashboard.js"></script>
+</body>
+</html>

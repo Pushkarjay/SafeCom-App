@@ -1,0 +1,37 @@
+{
+  "name": "safecom-frontend",
+  "version": "1.0.0",
+  "description": "SafeCom Task Management System - Frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "echo 'Static site ready'",
+    "dev": "npx http-server . -p 8080 -o",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "echo 'Deploy to Render static site'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "task-management",
+    "safecom",
+    "frontend",
+    "javascript",
+    "html",
+    "css",
+    "render"
+  ],
+  "author": "Pushkarjay Ajay <pushkarjay.ajay1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pushkarjay/SafeCom.git"
+  },
+  "homepage": "https://safecom-frontend-tempo-render.onrender.com",
+  "bugs": {
+    "url": "https://github.com/Pushkarjay/SafeCom/issues"
+  }
+}
