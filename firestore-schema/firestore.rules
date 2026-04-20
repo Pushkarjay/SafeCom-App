@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User is authenticated
+    function isAuth() {
+      return request.auth != null;
+    }
+    
+    // User is owner or admin
+    function isOwnerOrAdmin(userId) {
+      return request.auth.uid == userId || request.auth.token.role == 'admin';
+    }
+    
+    // User role check
+    function hasRole(role) {
+      return request.auth.token.role == role;
+    }
+    
+    // ========== USERS COLLECTION ==========
+    match /users/{userId} {
+      // Authenticated users can read their own data
+      allow read: if isAuth() && (isOwnerOrAdmin(userId) || hasRole('admin'));
+      
+      // Users can update their own data
+      allow update: if isAuth() && isOwnerOrAdmin(userId);
+      
+      // Admin can read/write all users
+      allow read, write: if isAuth() && hasRole('admin');
+      
+      // Create: authenticated users can create their own profile
+      allow create: if isAuth() && request.auth.uid == userId;
+      
+      // Delete: admin only
+      allow delete: if isAuth() && hasRole('admin');
+    }
+    
+    // ========== TASKS COLLECTION ==========
+    match /tasks/{taskId} {
+      // Authenticated users can read
+      allow read: if isAuth();
+      
+      // Can create if authenticated
+      allow create: if isAuth() && 
+                       request.resource.data.createdBy == request.auth.uid;
+      
+      // Can update if owner, assigned, or admin
+      allow update: if isAuth() && 
+                       (resource.data.createdBy == request.auth.uid ||
+                        resource.data.assignedTo == request.auth.uid ||
+                        request.auth.token.role == 'admin');
+      
+      // Can delete if creator or admin
+      allow delete: if isAuth() && 
+                       (resource.data.createdBy == request.auth.uid ||
+                        request.auth.token.role == 'admin');
+    }
+    
+    // ========== MESSAGES COLLECTION ==========
+    match /messages/{messageId} {
+      // Can read own messages
+      allow read: if isAuth() && 
+                     (resource.data.senderId == request.auth.uid ||
+                      resource.data.receiverId == request.auth.uid ||
+                      request.auth.token.role == 'admin');
+      
+      // Can create messages
+      allow create: if isAuth() && 
+                       request.resource.data.senderId == request.auth.uid;
+      
+      // Can update own messages
+      allow update: if isAuth() && 
+                       (resource.data.senderId == request.auth.uid ||
+                        request.auth.token.role == 'admin');
+      
+      // Can delete own messages
+      allow delete: if isAuth() && 
+                       (resource.data.senderId == request.auth.uid ||
+                        request.auth.token.role == 'admin');
+    }
+    
+    // ========== TASK COMMENTS ==========
+    match /taskComments/{commentId} {
+      allow read: if isAuth();
+      
+      allow create: if isAuth() && 
+                       request.resource.data.authorId == request.auth.uid;
+      
+      allow update, delete: if isAuth() && 
+                              (resource.data.authorId == request.auth.uid ||
+                               request.auth.token.role == 'admin');
+    }
+    
+    // ========== NOTIFICATIONS ==========
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isAuth() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // System/backend can create notifications
+      allow create: if request.auth.uid != null;
+      
+      // Users can update their own notifications
+      allow update: if isAuth() && 
+                       resource.data.userId == request.auth.uid;
+      
+      // Admin can delete
+      allow delete: if isAuth() && 
+                       (resource.data.userId == request.auth.uid ||
+                        request.auth.token.role == 'admin');
+    }
+  }
+}

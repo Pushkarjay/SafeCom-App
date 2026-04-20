@@ -1,0 +1,22 @@
+service: safecom-backend
+runtime: nodejs18
+
+env: standard
+instances: 1
+
+env_variables:
+  FIREBASE_PROJECT_ID: "your-project-id"
+  GOOGLE_CLOUD_REGION: "us-central1"
+  ENABLE_DEMO_MODE: "true"
+  NODE_ENV: "production"
+
+handlers:
+  - url: /api/.*
+    script: auto
+    secure: always
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 10
+
+entrypoint: "node src/app.js"

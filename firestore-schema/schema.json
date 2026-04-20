@@ -1,0 +1,114 @@
+{
+  "collections": {
+    "users": {
+      "description": "User accounts and profiles",
+      "documents": {
+        "userId": {
+          "fields": {
+            "uid": "string (Firebase UID)",
+            "email": "string (unique)",
+            "name": "string",
+            "role": "string (admin|customer|employee|manager)",
+            "avatar": "string (Cloud Storage URL)",
+            "phone": "string",
+            "department": "string",
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp",
+            "isDemoMode": "boolean",
+            "status": "string (active|inactive|suspended)"
+          }
+        }
+      }
+    },
+    "tasks": {
+      "description": "Task management collection",
+      "documents": {
+        "taskId": {
+          "fields": {
+            "id": "string (auto-generated)",
+            "title": "string",
+            "description": "string",
+            "status": "string (pending|in_progress|completed|on_hold)",
+            "priority": "string (low|medium|high|urgent)",
+            "category": "string",
+            "createdBy": "string (userId)",
+            "assignedTo": "string (userId)",
+            "dueDate": "timestamp",
+            "completedAt": "timestamp",
+            "attachments": "array of {name, url, size}",
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+          }
+        }
+      }
+    },
+    "messages": {
+      "description": "Team messaging",
+      "documents": {
+        "messageId": {
+          "fields": {
+            "id": "string",
+            "senderId": "string (userId)",
+            "receiverId": "string (userId)",
+            "taskId": "string (optional)",
+            "content": "string",
+            "type": "string (text|file|notification)",
+            "attachments": "array",
+            "isRead": "boolean",
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+          }
+        }
+      }
+    },
+    "taskComments": {
+      "description": "Comments on tasks",
+      "documents": {
+        "commentId": {
+          "fields": {
+            "taskId": "string (parent)",
+            "authorId": "string (userId)",
+            "content": "string",
+            "attachments": "array",
+            "likes": "array of userIds",
+            "createdAt": "timestamp",
+            "updatedAt": "timestamp"
+          }
+        }
+      }
+    },
+    "notifications": {
+      "description": "Real-time notifications",
+      "documents": {
+        "notificationId": {
+          "fields": {
+            "userId": "string",
+            "type": "string (task_assigned|task_updated|message|comment)",
+            "title": "string",
+            "body": "string",
+            "data": "object (taskId, userId, etc)",
+            "isRead": "boolean",
+            "createdAt": "timestamp"
+          }
+        }
+      }
+    }
+  },
+  "indexes": [
+    {
+      "collection": "tasks",
+      "fields": ["status", "dueDate"],
+      "description": "Query tasks by status and due date"
+    },
+    {
+      "collection": "tasks",
+      "fields": ["assignedTo", "status"],
+      "description": "Query user's tasks by status"
+    },
+    {
+      "collection": "messages",
+      "fields": ["senderId", "receiverId", "createdAt"],
+      "description": "Query messages between users"
+    }
+  ]
+}
