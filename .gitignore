@@ -22,6 +22,35 @@ ehthumbs.db
 Thumbs.db
 Desktop.ini
 
+# Firebase & GCP Secrets (CRITICAL - Never commit)
+*.json
+firebase-adminsdk-*.json
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+google-services.json
+GoogleService-Info.plist
+safecom-task-management-firebase-adminsdk-*.json
+backend/src/config/*.json
+server/src/config/*.json
+!backend/src/config/firebase.template.js
+!server/src/config/firebase.template.js
+
+# Environment & Secrets
+.env
+.env.local
+.env.production.local
+.env.development.local
+.env.test.local
+.env.*.local
+*.env
+safecom-react/.env
+safecom-react/.env.local
+safecom-react/.env.production.local
+server/.env*
+!.env.example
+!.env.template
+!.env.*.template
+
 # IDE and Editor files
 .vscode/
 .idea/
@@ -31,6 +60,16 @@ Desktop.ini
 *.iml
 *.ipr
 *.iws
+
+# React App (safecom-react/)
+safecom-react/node_modules/
+safecom-react/build/
+safecom-react/.env
+safecom-react/.env.local
+safecom-react/.env.*.local
+safecom-react/npm-debug.log*
+safecom-react/yarn-debug.log*
+safecom-react/yarn-error.log*
 
 # Logs
 *.log
@@ -62,6 +101,9 @@ server/build/
 server/firebase-service-account.json
 server/firebase-service-account-*.json
 server/google-services.json
+server/src/config/*.json
+server/src/config/firebase*.js
+server/src/config/.env
 
 # Keep template files for multi-client setup
 !server/.env.*.template
